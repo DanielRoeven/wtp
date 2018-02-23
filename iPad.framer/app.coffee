@@ -40,7 +40,7 @@ r.onreadystatechange = ->
 			callback(data)
 		else
 			print r.status
-# r.send()
+r.send()
 
 
 
