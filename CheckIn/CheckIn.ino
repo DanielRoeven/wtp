@@ -6,7 +6,7 @@
 
 // Define tags that will be recognized
 
-const char  tag_0[] PROGMEM = "3C00CDDB6943";
+const char  tag_0[] PROGMEM = "3C00CDDB6b43";
 const char  tag_1[] PROGMEM = "000000000000";
 const char  tag_2[] PROGMEM = "000000000000";
 const char  tag_3[] PROGMEM = "000000000000";
