@@ -12,11 +12,13 @@
 
 #define BLUE			0x0000FF
 #define GREEN			0x008000
-#define ORANGE			0xFFA500
-#define PINK			0xFFC0CB
-#define YELLOW			0xFFFF00
+#define YELLOW    0xFFFF00
+#define ORANGE	  0xFFA500
+#define RED       0xFF0000
+#define PINK			0xFF3333
 
-#define SUPERGREEN  		0x14FF14
+
+#define SUPERGREEN  	0x14FF14
 #define LIGHTGREEN		0x30FF30
-#define DARKGREEN		0x006400
-#define DARKDARKGREEN 		0x002200
+#define DARKGREEN		  0x006400
+#define DARKDARKGREEN 0x002200

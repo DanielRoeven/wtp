@@ -1,12 +1,12 @@
-// RFID Reader
+//////////////////////
+// RFID Reader Initializing
 //////////////////////
 
 #include <SoftwareSerial.h>
 #include <avr/pgmspace.h>
 
 // Define tags that will be recognized
-
-const char  tag_0[] PROGMEM = "3C00CDDB6b43";
+const char  tag_0[] PROGMEM = "3C00CDDB6942"; // Yellow tag: 3C00CDDB6943
 const char  tag_1[] PROGMEM = "000000000000";
 const char  tag_2[] PROGMEM = "000000000000";
 const char  tag_3[] PROGMEM = "000000000000";
@@ -15,29 +15,29 @@ const char  tag_5[] PROGMEM = "000000000000";
 
 const char * const tag_table[] PROGMEM ={tag_0,tag_1,tag_2,tag_3,tag_4,tag_5};
 
-SoftwareSerial rfidReader(2,3); // Digital pins 2 and 3 connect to pins 1 and 2 of the RMD6300
+SoftwareSerial rfidReader(2,3); // Digital pin 2 connects to RFID
 String tagString;
 char tagNumber[14];
 boolean receivedTag;
-  
-//LED Ring
+
+//////////////////////
+//LED Ring Initializing
 //////////////////////
 
 #include <Adafruit_NeoPixel.h>
-#include "WS2812_Definitions.h"
+#include "Definitions.h"
 
 #define PIN 4
 #define LED_COUNT 16
 
 // Create an instance of the Adafruit_NeoPixel class called "leds".
-// That'll be what we refer to from here on...
 Adafruit_NeoPixel leds = Adafruit_NeoPixel(LED_COUNT, PIN, NEO_GRB + NEO_KHZ800);
 
 //////////////////////
 // Setup
 //////////////////////
 
-void setup() {
+void setup(){
 
   Serial.begin(9600);
   rfidReader.begin(9600); // the RDM6300 runs at 9600bps
@@ -53,7 +53,7 @@ void setup() {
 // Loop
 //////////////////////
 
-void loop() {
+void loop(){
 
 // The loop will continuously check for a present RFID tag. 
 // Once detected it will:
@@ -86,7 +86,6 @@ void loop() {
     }
     else{
       Serial.print("Unauthorized Tag: ");
-      Serial.println(tagString);
       showUnknown(60);
       leds.show();
 
@@ -123,22 +122,21 @@ void checkState(){
  }
 
 
-void showCheckIn(byte wait)
-{
+void showCheckIn(byte wait){
     clearLEDs();leds.show();  
     for (int i=LED_COUNT-1; i>=0; i--)
     {
-      //clearLEDs();
       leds.setPixelColor(i+1, DARKDARKGREEN);
       leds.setPixelColor(i, SUPERGREEN);
       leds.setPixelColor(i-1, LIGHTGREEN);
       leds.show();
       delay(wait);
     }
+    leds.setPixelColor(0, DARKDARKGREEN);
+    leds.show();
 }
 
-void showCheckOut(byte wait)
-{
+void showCheckOut(byte wait){
     clearLEDs();leds.show();
     for (int i=0; i<LED_COUNT; i++)
     {
@@ -150,51 +148,66 @@ void showCheckOut(byte wait)
 
 }
  
-void showUnknown(byte wait)
-{
+void showUnknown(byte wait){
+    // What if the RFID tag is recognized, yet unknown
+  
     clearLEDs();leds.show();
-    for (int i=LED_COUNT-1; i>=0; i--)
-    {
-      //clearLEDs();
-      leds.setPixelColor(i, RED);
-      leds.show();
-      delay(wait);
-    }
+    pulseLEDs(PINK, 5, wait); // color, step size (percentage), wait time
 }
 
-void clearLEDs()
-{
+void readError(){
+    // What if the RFID tag is not read properly
+  
+}
+
+//////////////////////
+// Define subfunctions
+//////////////////////
+
+void pulseLEDs(unsigned long color, byte res, byte wait){
+  // This functions fades all LEDs simultaneously up and down
+
+
+  
+  // Fade up...
+  for (int i=0; i<100; i=i+res)
+  {
+    setLEDs(color, i);
+    leds.show();
+    delay(wait);
+  }
+  
+  // ...and back!
+  for (int i=100; i>0; i=i-res)
+  {
+    setLEDs(color, i);
+    leds.show();
+    delay(wait);
+  }
+}
+
+void clearLEDs(){
   for (int i=0; i<LED_COUNT; i++)
   {
     leds.setPixelColor(i, 0);
   }
 }
 
+void setLEDs(unsigned long color, float intensity){
+  // This function assigns the same color to all LEDs
+  // !!! Is there a way that the second argument does not have to be included? (Standard to 100)
 
+  // Split the color into its RGB components (so we can factorize them individually)
+  byte red = (color & 0xFF0000) >> 16;
+  byte green = (color & 0x00FF00) >> 8;
+  byte blue = (color & 0x0000FF);
 
-void cascadeLEDs(unsigned long color, byte direction, byte wait)
-{
-  if (direction == TOP_DOWN)
+  // Squaring the intensity factor gives a visually better change
+  float s = (intensity/100)*(intensity/100); 
+  
+  // Set all LEDs to this color
+  for (int i=0; i<LED_COUNT; i++)
   {
-    for (int i=0; i<LED_COUNT; i++)
-    {
-      //clearLEDs();  // Turn off all LEDs
-      leds.setPixelColor(i, color);  // Set just this one
-      leds.show();
-      delay(wait);
-    }
+    leds.setPixelColor(i, red*s, green*s, blue*s);
   }
-  else
-  {
-    for (int i=LED_COUNT-1; i>=0; i--)
-    {
-      //clearLEDs();
-      leds.setPixelColor(i, color);
-      leds.show();
-      delay(wait);
-    }
-  }
-  clearLEDs();
-  leds.show();
 }
-
