@@ -8,6 +8,7 @@
    http://www.w3schools.com/html/html_colorvalues.asp */
    
 #define WHITE			0xFFFFFF
+#define GREY50    0x888888
 #define BLACK			0x000000
 
 #define BLUE			0x0000FF

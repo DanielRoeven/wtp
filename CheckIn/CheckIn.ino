@@ -2,23 +2,17 @@
 // RFID Reader Initializing
 //////////////////////
 
-#include <SoftwareSerial.h>
-#include <avr/pgmspace.h>
+#include <SPI.h>
+#include <MFRC522.h>
 
-// Define tags that will be recognized
-const char  tag_0[] PROGMEM = "3C00CDDB6942"; // Yellow tag: 3C00CDDB6943
-const char  tag_1[] PROGMEM = "000000000000";
-const char  tag_2[] PROGMEM = "000000000000";
-const char  tag_3[] PROGMEM = "000000000000";
-const char  tag_4[] PROGMEM = "000000000000";
-const char  tag_5[] PROGMEM = "000000000000";
+constexpr uint8_t RST_PIN = 9;
+constexpr uint8_t SS_PIN = 10;
+ 
+MFRC522 rfid(SS_PIN, RST_PIN);    // Instance of the class
 
-const char * const tag_table[] PROGMEM ={tag_0,tag_1,tag_2,tag_3,tag_4,tag_5};
-
-SoftwareSerial rfidReader(2,3); // Digital pin 2 connects to RFID
-String tagString;
-char tagNumber[14];
-boolean receivedTag;
+// Define tags & states that will be recognized
+char knownID[9] = "90fb78a2";
+boolean IDState = false;
 
 //////////////////////
 //LED Ring Initializing
@@ -39,13 +33,23 @@ Adafruit_NeoPixel leds = Adafruit_NeoPixel(LED_COUNT, PIN, NEO_GRB + NEO_KHZ800)
 
 void setup(){
 
-  Serial.begin(9600);
-  rfidReader.begin(9600); // the RDM6300 runs at 9600bps
-  Serial.println("RFID Reader is ready!");
+  Serial.begin(9600); // Init Console
+  SPI.begin();        // Init SPI bus
+  rfid.PCD_Init();    // Init MFRC522 
 
+  Serial.println("Now able to scan the MIFARE Classsic NUID.");
+  
   leds.begin();  // Call this to start up the LED strip.
-  clearLEDs();   // This function, defined below, turns all LEDs off...
-  leds.show();   // ...but the LEDs don't actually update until you call this.
+
+  // Blink 3 times blue
+  for (int i=0; i<3; i++){
+    setLEDs(BLUE, 30);
+    leds.show();
+    delay(250);
+    clearLEDs();   // This function, defined below, turns all LEDs off...
+    leds.show();   // ...but the LEDs don't actually update until you call this.
+    delay(250);
+  }
 
 }
 
@@ -57,75 +61,80 @@ void loop(){
 
 // The loop will continuously check for a present RFID tag. 
 // Once detected it will:
+//    1. Check for a tag
 //    1. Check the ID
-//    2. Check if ID is in database
+//    2. Check if ID is known
 //    3. Toggle check-in/out state
 //    4. Perform according action on LED strip
+//    5. Write to webpage
 
-  receivedTag=false;
-  while (rfidReader.available()){
-    int BytesRead = rfidReader.readBytesUntil(3, tagNumber, 15);//EOT (3) is the last character in tag
-    Serial.println(BytesRead); 
-    receivedTag=true;
-  }  
- 
-  if (receivedTag){
-    
-    tagString=tagNumber;
-    Serial.println();
-    Serial.print("Tag Number: ");
-    Serial.println(tagString);
-    
-    if (checkTag(tagString)){
-      Serial.print("Tag Authorized...");
-      showCheckIn(180); 
 
-      //delay(2500);
-      rfidReader.flush();
+  // Look for new cards
+  if ( ! rfid.PICC_IsNewCardPresent())
+    return;
+  // Verify if the NUID has been read
+  if ( ! rfid.PICC_ReadCardSerial())
+    return;
 
-    }
-    else{
-      Serial.print("Unauthorized Tag: ");
-      showUnknown(60);
-      leds.show();
-
-      //delay(2500);
-      rfidReader.flush();
-        
-    }
-    memset(tagNumber,0,sizeof(tagNumber)); //erase tagNumber
+  // Check if the PICC is of Classic MIFARE type
+  MFRC522::PICC_Type piccType = rfid.PICC_GetType(rfid.uid.sak);
+  if (piccType != MFRC522::PICC_TYPE_MIFARE_MINI &&  
+    piccType != MFRC522::PICC_TYPE_MIFARE_1K &&
+    piccType != MFRC522::PICC_TYPE_MIFARE_4K) {
+    Serial.println(F("Your tag is not of type MIFARE Classic."));
+    return;
   }
 
+  // Create string for scannedTagID
+  char scannedTagID[9];
+  strcpy(scannedTagID, "");
+  for (byte i = 0; i < 4; i++){
+    //Convert current array entry to string and concatenate
+    char temp[2];
+    itoa(rfid.uid.uidByte[i], temp, 16);
+    strcat(scannedTagID, temp);
+  }
+  Serial.println("");
+  Serial.println(scannedTagID);
+
+  // Check if scanned tag is known
+  if (strcmp(scannedTagID, knownID) == 0){ 
+    Serial.println("ID accepted"); 
+    if (!IDState){
+      IDState = !IDState;
+      Serial.println("Now checked in!");
+      showCheckIn(130); 
+    }
+    else{
+      IDState = !IDState;
+      Serial.println("Now checked out...");
+      showCheckOut(20);      
+    }
+  }
+  else{
+    Serial.println("Unknown ID");
+    showUnknown(10);
+  }
+  
+
+  // Halt PICC
+  rfid.PICC_HaltA();
+  // Stop encryption on PCD
+  rfid.PCD_StopCrypto1();
 }
 
 //////////////////////
 // Define functions
 //////////////////////
 
-boolean checkTag(String tag){
-   char testTag[14];
-   
-   for (int i = 0; i < sizeof(tag_table)/2; i++)
-   {
-    strcpy_P(testTag, (char*)pgm_read_word(&(tag_table[i])));
-    if(tag.substring(1,13)==testTag){//substring function removes SOT and EOT
-      return true;
-      break;
-    }
-  }
-   return false;
- }
-
 void checkState(){
 
   
  }
 
-
 void showCheckIn(byte wait){
     clearLEDs();leds.show();  
-    for (int i=LED_COUNT-1; i>=0; i--)
-    {
+    for (int i=LED_COUNT-1; i>=0; i--){
       leds.setPixelColor(i+1, DARKDARKGREEN);
       leds.setPixelColor(i, SUPERGREEN);
       leds.setPixelColor(i-1, LIGHTGREEN);
@@ -138,12 +147,16 @@ void showCheckIn(byte wait){
 
 void showCheckOut(byte wait){
     clearLEDs();leds.show();
-    for (int i=0; i<LED_COUNT; i++)
-    {
+    for (int i=0; i<LED_COUNT; i++){
       //clearLEDs();  // Turn off all LEDs
-      leds.setPixelColor(i, WHITE);  // Set just this one
+      leds.setPixelColor(i, GREY50);  // Set just this one
       leds.show();
       delay(wait);
+    }
+    for (int i=100; i>0; i--){
+      setLEDs(GREY50, i);
+      leds.show();
+      delay(10);
     }
 
 }
@@ -152,7 +165,7 @@ void showUnknown(byte wait){
     // What if the RFID tag is recognized, yet unknown
   
     clearLEDs();leds.show();
-    pulseLEDs(PINK, 5, wait); // color, step size (percentage), wait time
+    pulseLEDs(RED, 1, wait); // color, step size (percentage), wait time
 }
 
 void readError(){
@@ -170,16 +183,14 @@ void pulseLEDs(unsigned long color, byte res, byte wait){
 
   
   // Fade up...
-  for (int i=0; i<100; i=i+res)
-  {
+  for (int i=0; i<100; i=i+res){
     setLEDs(color, i);
     leds.show();
     delay(wait);
   }
   
   // ...and back!
-  for (int i=100; i>0; i=i-res)
-  {
+  for (int i=100; i>0; i=i-res){
     setLEDs(color, i);
     leds.show();
     delay(wait);
