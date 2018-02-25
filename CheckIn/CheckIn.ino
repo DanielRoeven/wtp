@@ -11,12 +11,14 @@ constexpr uint8_t SS_PIN = 10;
 MFRC522 rfid(SS_PIN, RST_PIN);    // Instance of the class
 
 // Define tags & states that will be recognized
-char knownID[6][9] = {"90fb78a2",
-                      "3ea882b9",
-                      "20000000",
-                      "30000000",
-                      "40000000",
-                      "50000000"};
+#include "tagIDs.h"
+
+char knownID[6][9] = {ID0,  // White Card  90fb78a2
+                      ID1,  // Blue Tag    3ea882b9
+                      ID2,
+                      ID3,
+                      ID4,
+                      ID5};
 
 int  IDState[6] = {0, 0, 0, 0, 0, 0,};
 
@@ -32,6 +34,8 @@ int  IDState[6] = {0, 0, 0, 0, 0, 0,};
 
 // Create an instance of the Adafruit_NeoPixel class called "leds".
 Adafruit_NeoPixel leds = Adafruit_NeoPixel(LED_COUNT, PIN, NEO_GRB + NEO_KHZ800);
+
+boolean checkUnknown = false;
 
 //////////////////////
 // Setup
@@ -49,7 +53,7 @@ void setup(){
 
   // Blink 3 times blue
   for (int i=0; i<3; i++){
-    setLEDs(BLUE, 30);
+    setLEDs(BLUE, 10);
     leds.show();
     delay(200);
     clearLEDs();   // This function, defined below, turns all LEDs off...
@@ -73,11 +77,11 @@ void loop(){
 //    5. Write to webpage
 
 
-  // Look for new cards
+  // Look for new cards  
   if ( ! rfid.PICC_IsNewCardPresent())
     return;
   // Verify if the NUID has been read
-  if ( ! rfid.PICC_ReadCardSerial())
+  if ( !rfid.PICC_ReadCardSerial())
     return;
 
   // Check if the PICC is of Classic MIFARE type
@@ -124,9 +128,14 @@ void loop(){
       }
     }
   }
+
+  checkUnknown = false;
   if (!checkFound){
-    Serial.println("Unknown ID");
-    showUnknown(10);
+    while (!rfid.PICC_IsNewCardPresent()){  // !!! Look for a function that check whether ANY card is present instead of new one
+      Serial.println("Unknown ID");
+      showUnknown(10);
+      checkUnknown = true;
+    }
   }
   
   // Halt PICC
