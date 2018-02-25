@@ -11,8 +11,14 @@ constexpr uint8_t SS_PIN = 10;
 MFRC522 rfid(SS_PIN, RST_PIN);    // Instance of the class
 
 // Define tags & states that will be recognized
-char knownID[9] = "90fb78a2";
-boolean IDState = false;
+char knownID[6][9] = {"90fb78a2",
+                      "3ea882b9",
+                      "20000000",
+                      "30000000",
+                      "40000000",
+                      "50000000"};
+
+int  IDState[6] = {0, 0, 0, 0, 0, 0,};
 
 //////////////////////
 //LED Ring Initializing
@@ -45,12 +51,11 @@ void setup(){
   for (int i=0; i<3; i++){
     setLEDs(BLUE, 30);
     leds.show();
-    delay(250);
+    delay(200);
     clearLEDs();   // This function, defined below, turns all LEDs off...
     leds.show();   // ...but the LEDs don't actually update until you call this.
     delay(250);
   }
-
 }
 
 //////////////////////
@@ -60,7 +65,6 @@ void setup(){
 void loop(){
 
 // The loop will continuously check for a present RFID tag. 
-// Once detected it will:
 //    1. Check for a tag
 //    1. Check the ID
 //    2. Check if ID is known
@@ -87,31 +91,44 @@ void loop(){
 
   // Create string for scannedTagID
   char scannedTagID[9];
-  sprintf(scannedTagID, "%02x,%02x, %02x,%02x”, rfid.uid.uidByte[0], rfid.uid.uidByte[1], rfid.uid.uidByte[2], rfid.uid.uidByte[3]);
+  sprintf(scannedTagID, "%02x%02x%02x%02x", rfid.uid.uidByte[0], rfid.uid.uidByte[1], rfid.uid.uidByte[2], rfid.uid.uidByte[3]);
   
   Serial.println("");
   Serial.println(scannedTagID);
 
-  // Check if scanned tag is known
-  if (strcmp(scannedTagID, knownID) == 0){ 
-    Serial.println("ID accepted"); 
-    if (!IDState){
-      IDState = !IDState;
-      Serial.println("Now checked in!");
-      showCheckIn(130); 
-    }
-    else{
-      IDState = !IDState;
-      Serial.println("Now checked out...");
-      showCheckOut(20);      
+  // Check if scanned tag is known, and which ID number it is
+  boolean checkFound = false;
+  for (int i=0; i<6; i++){
+    if (strcmp(scannedTagID, knownID[i]) == 0){
+      int currentID = i;
+      checkFound = true;
+      Serial.print("ID no.");
+      Serial.println(i);
+
+      if (IDState[i] == 0){       //Currently logged out, so trying to log in
+        IDState[i] = 1;
+        Serial.println("Now checked in!");
+        showCheckIn(130); 
+      }
+      else if (IDState[i] == 1){  //Currently logged in, so trying to log out
+        IDState[i] = 0;
+        Serial.println("Funk Soul Brother");
+        showCheckOut(20);        
+      }
+      else{                       // This should never happen, so show in console if it does
+        Serial.println("Wrong IDState");
+        Serial.println("Current ID: ");
+        Serial.print  (scannedTagID);
+        Serial.println("State:      ");
+        Serial.print  (IDState[i]);
+      }
     }
   }
-  else{
+  if (!checkFound){
     Serial.println("Unknown ID");
     showUnknown(10);
   }
   
-
   // Halt PICC
   rfid.PICC_HaltA();
   // Stop encryption on PCD
