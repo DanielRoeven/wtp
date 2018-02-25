@@ -87,13 +87,8 @@ void loop(){
 
   // Create string for scannedTagID
   char scannedTagID[9];
-  strcpy(scannedTagID, "");
-  for (byte i = 0; i < 4; i++){
-    //Convert current array entry to string and concatenate
-    char temp[2];
-    itoa(rfid.uid.uidByte[i], temp, 16);
-    strcat(scannedTagID, temp);
-  }
+  sprintf(scannedTagID, "%02x,%02x, %02x,%02x”, rfid.uid.uidByte[0], rfid.uid.uidByte[1], rfid.uid.uidByte[2], rfid.uid.uidByte[3]);
+  
   Serial.println("");
   Serial.println(scannedTagID);
 
