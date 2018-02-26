@@ -2,6 +2,7 @@
 screen = Framer.Device.screen
 Framer.Extras.Hints.disable()
 
+inactiveColor = '#DDDDDD'
 activeColor = '#22CCDD'
 Item_Template.opacity = 0
 
@@ -60,20 +61,20 @@ tangibleInteractionInfo =
 	name: "Tangible Interaction"
 	hour: 9
 	minutes: 15
-	durationH: 2
+	durationH: 1
 	durationM: 0
 	location: "Low"
-	shareTime: true
+	shareTime: false
 	shareLocation: false
 
 someEvent =
 	name: "someEvent"
-	hour: 11
+	hour: 10
 	minutes: 15
 	durationH: 2
 	durationM: 0
 	location: "Low"
-	shareTime: true
+	shareTime: false
 	shareLocation: false
 
 lunchInfo =
@@ -83,8 +84,8 @@ lunchInfo =
 	durationH: 1
 	durationM: 0
 	location: "High"
-	shareTime: true
-	shareLocation: true
+	shareTime: false
+	shareLocation: false
 
 informationVisualisationLectureInfo =
 	name: "Info Vis Lecture"
@@ -103,7 +104,7 @@ informationVisualisationWorkshopInfo =
 	durationH: 2
 	durationM: 0
 	location: "Jupiter 128"
-	shareTime: true
+	shareTime: false
 	shareLocation: false
 
 anotherOne =
@@ -113,7 +114,7 @@ anotherOne =
 	durationH: 2
 	durationM: 0
 	location: "Someplace"
-	shareTime: true
+	shareTime: false
 	shareLocation: false
 
 tangibleInteraction = instantiateItemFor(tangibleInteractionInfo)
@@ -128,18 +129,51 @@ activities = [tangibleInteraction, someEvent, lunch, lecture, workshop, anotherO
 Puck.pinchable.enabled = true;
 Puck.pinchable.scale = false;
 Puck.pinchable.centerOrigin = false;
+Puck.pinchable.rotateIncrements = .5;
 
-Puck.onPinch ->
+Puck.onRotate ->
 	rotateToSelect()
 
-rotateToSelect = Utils.throttle 0.15, ->
+selectedActivity = null
+rotateToSelect = Utils.throttle .1, ->
+		isSelectedActivity = (selectedActivity != null)
 		puckRotation = Puck.rotation %% 360
 		for activity in activities
-			if (puckRotation + 10 >= activity.degree && puckRotation + 10 < activity.degree + activity.duration)
-				activity.animate('selected')
-			else if (activity.states.current.name == 'selected')
+			inBounds = (puckRotation + 10 >= activity.degree) &&  (puckRotation + 10 < activity.degree + activity.duration)
+			state = activity.states.current.name
+			if (state == 'selected' && !inBounds)
 				activity.animate('default')
+				isSelectedActivity = false
+			else if (state == 'default' && inBounds)
+				selectedActivity = activity
+				activity.animate('selected')
+				isSelectedActivity = false
+		if (!isSelectedActivity)
+			selectedActivity = null
 
+Frame.onTouchStart (e) ->
+	if (e.touches.length > 2) then print selectedActivity
+	if (e.touches.length > 2 && selectedActivity)
+		if (!selectedActivity.shareTime)
+			selectedActivity.shareTime = true
+		else if (!selectedActivity.shareLocation)
+			selectedActivity.shareLocation = true
+		else
+			selectedActivity.shareTime = false
+			selectedActivity.shareLocation = false
+		redrawItem(selectedActivity)
+
+redrawItem = (activity) ->
+	print 'redraw'
+	if activity.shareTime
+		activity.children[1].fill = activeColor
+	else
+		activity.children[1].fill = inactiveColor
+	if activity.shareLocation
+		activity.children[0].fill = activeColor
+	else
+		activity.children[0].fill = inactiveColor
+		
 # Create XMLHttpRequest
 callback = (data) ->
 	print data
