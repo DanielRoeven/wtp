@@ -103,17 +103,15 @@ Puck.pinchable.scale = false;
 Puck.pinchable.centerOrigin = false;
 
 Puck.onPinch ->
-#	hoursRot = (Puck.rotation - 1) %% 360 + 1
-# 	hour = Math.floor(hoursRot/30)
-# 	minutesRot = (Puck.rotation) %% 360
-# 	minutes = Math.floor(minutesRot / 6)
-#	print hour + ':' + minutes
-	puckRotation = Puck.rotation %% 360
-	for activity in activities
-		if (puckRotation + 10 >= activity.degree && puckRotation + 10 < activity.degree + activity.duration)
-			activity.animate('selected')
-		else if (activity.states.current.name == 'selected')
-			activity.animate('default')
+	rotateToSelect()
+
+rotateToSelect = Utils.throttle 0.15, ->
+		puckRotation = Puck.rotation %% 360
+		for activity in activities
+			if (puckRotation + 10 >= activity.degree && puckRotation + 10 < activity.degree + activity.duration)
+				activity.animate('selected')
+			else if (activity.states.current.name == 'selected')
+				activity.animate('default')
 
 # Create XMLHttpRequest
 callback = (data) ->
