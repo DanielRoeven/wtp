@@ -136,23 +136,23 @@ Puck.onRotate ->
 
 selectedActivity = null
 rotateToSelect = Utils.throttle .1, ->
-		isSelectedActivity = (selectedActivity != null)
+		selected = false
+		deselected = false
 		puckRotation = Puck.rotation %% 360
 		for activity in activities
 			inBounds = (puckRotation + 10 >= activity.degree) &&  (puckRotation + 10 < activity.degree + activity.duration)
 			state = activity.states.current.name
 			if (state == 'selected' && !inBounds)
 				activity.animate('default')
-				isSelectedActivity = false
+				deselected = true
 			else if (state == 'default' && inBounds)
-				selectedActivity = activity
 				activity.animate('selected')
-				isSelectedActivity = false
-		if (!isSelectedActivity)
+				selectedActivity = activity
+				selected = true
+		if (deselected && !selected)
 			selectedActivity = null
 
 Frame.onTouchStart (e) ->
-	if (e.touches.length > 2) then print selectedActivity
 	if (e.touches.length > 2 && selectedActivity)
 		if (!selectedActivity.shareTime)
 			selectedActivity.shareTime = true
@@ -164,7 +164,6 @@ Frame.onTouchStart (e) ->
 		redrawItem(selectedActivity)
 
 redrawItem = (activity) ->
-	print 'redraw'
 	if activity.shareTime
 		activity.children[1].fill = activeColor
 	else
