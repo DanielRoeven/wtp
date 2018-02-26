@@ -27,11 +27,16 @@ instantiateItemFor = (itemData) ->
 	item.y = Align.center(-unitPos.y * offset)
 	item.degree = timeToDegree(itemData.hour, itemData.minutes)
 	item.duration = timeToDegree(itemData.durationH, itemData.durationM)
+	
+	item.states.default =
+		scale: 0.75
+	item.stateSwitch('default');
+	
 	item.states.selected =
-		scale: 1.5
+		scale: 1
 	
 	item.states.animationOptions =
-		time: .1
+		time: .15
 	
 	return item
 
@@ -54,6 +59,16 @@ timeToDegree = (hours, minutes) ->
 tangibleInteractionInfo =
 	name: "Tangible Interaction"
 	hour: 9
+	minutes: 15
+	durationH: 2
+	durationM: 0
+	location: "Low"
+	shareTime: true
+	shareLocation: false
+
+someEvent =
+	name: "someEvent"
+	hour: 11
 	minutes: 15
 	durationH: 2
 	durationM: 0
@@ -91,12 +106,24 @@ informationVisualisationWorkshopInfo =
 	shareTime: true
 	shareLocation: false
 
+anotherOne =
+	name: "anotherOne"
+	hour: 17
+	minutes: 15
+	durationH: 2
+	durationM: 0
+	location: "Someplace"
+	shareTime: true
+	shareLocation: false
+
 tangibleInteraction = instantiateItemFor(tangibleInteractionInfo)
+someEvent = instantiateItemFor(someEvent)
 lunch = instantiateItemFor(lunchInfo)
 lecture = instantiateItemFor(informationVisualisationLectureInfo)
 workshop = instantiateItemFor(informationVisualisationWorkshopInfo)
+anotherOne = instantiateItemFor(anotherOne)
 
-activities = [tangibleInteraction, lunch, lecture, workshop]
+activities = [tangibleInteraction, someEvent, lunch, lecture, workshop, anotherOne]
 
 Puck.pinchable.enabled = true;
 Puck.pinchable.scale = false;
