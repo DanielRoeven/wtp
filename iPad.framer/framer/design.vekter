@@ -130,7 +130,7 @@
                     "exportOptions" : [
 
                     ],
-                    "fillColor" : "#777777",
+                    "fillColor" : "hsl(0, 0%, 5%)",
                     "fillEnabled" : true,
                     "fillGradient" : {
                       "__class" : "LinearGradient",
@@ -249,7 +249,7 @@
                     "exportOptions" : [
 
                     ],
-                    "fillColor" : "#CCC",
+                    "fillColor" : "#0D0D0D",
                     "fillEnabled" : true,
                     "fillGradient" : {
                       "__class" : "LinearGradient",

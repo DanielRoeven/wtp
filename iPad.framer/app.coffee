@@ -185,12 +185,16 @@ redrawItem = (activity) ->
 	else
 		activity.children[1].fill = inactiveColor
 		activity.children[1].borderColor = inactiveBorderColor
+		activity.childrenWithName('NameText').color = inactiveBorderColor
+		activity.childrenWithName('TimeText').color = inactiveBorderColor
 	if activity.shareLocation
 		activity.children[0].fill = activeColor
 		activity.children[0].borderColor = activeBorderColor
+		activity.childrenWithName('LocationText').color = activeTextColor
 	else
 		activity.children[0].fill = inactiveColor
 		activity.children[0].borderColor = inactiveBorderColor
+		activity.childrenWithName('LocationText').color = i
 		
 # Create XMLHttpRequest
 callback = (data) ->
