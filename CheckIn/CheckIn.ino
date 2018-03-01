@@ -35,7 +35,6 @@ int  IDState[6] = {0, 0, 0, 0, 0, 0,};
 // Create an instance of the Adafruit_NeoPixel class called "leds".
 Adafruit_NeoPixel leds = Adafruit_NeoPixel(LED_COUNT, PIN, NEO_GRB + NEO_KHZ800);
 
-boolean checkUnknown = false;
 
 //////////////////////
 // Setup
@@ -129,13 +128,9 @@ void loop(){
     }
   }
 
-  checkUnknown = false;
   if (!checkFound){
-    while (!rfid.PICC_IsNewCardPresent()){  // !!! Look for a function that check whether ANY card is present instead of new one
       Serial.println("Unknown ID");
-      showUnknown(10);
-      checkUnknown = true;
-    }
+      showUnknown(4); showUnknown(4); showUnknown(4);  
   }
   
   // Halt PICC
