@@ -122,49 +122,6 @@
                 "centerAnchorY" : 0.5,
                 "children" : [
                   {
-                    "__class" : "PolygonShapeNode",
-                    "aspectRatioLocked" : true,
-                    "boxShadows" : [
-
-                    ],
-                    "exportOptions" : [
-
-                    ],
-                    "fillColor" : "#777777",
-                    "fillEnabled" : true,
-                    "fillGradient" : {
-                      "__class" : "LinearGradient",
-                      "alpha" : 1,
-                      "angle" : 0,
-                      "end" : "rgba(0,0,0,0)",
-                      "start" : "black"
-                    },
-                    "fillType" : "color",
-                    "height" : 64,
-                    "id" : "EmJ5BKUJu",
-                    "lineCap" : "butt",
-                    "lineJoin" : "miter",
-                    "locked" : false,
-                    "name" : "Pointer",
-                    "opacity" : 1,
-                    "parentid" : "Vnjg4GInW",
-                    "polygonSides" : 3,
-                    "radius" : 0,
-                    "rotation" : 0,
-                    "strokeAlignment" : "center",
-                    "strokeColor" : "#0AF",
-                    "strokeDashArray" : "0",
-                    "strokeDashOffset" : 0,
-                    "strokeEnabled" : 0,
-                    "strokeMiterLimit" : 4,
-                    "strokeWidth" : 1,
-                    "targetName" : null,
-                    "visible" : true,
-                    "width" : 64,
-                    "x" : 96,
-                    "y" : -38
-                  },
-                  {
                     "__class" : "ImageNode",
                     "aspectRatioLocked" : true,
                     "blendingEnabled" : 0,
@@ -249,7 +206,7 @@
                     "exportOptions" : [
 
                     ],
-                    "fillColor" : "#CCC",
+                    "fillColor" : "rgba(119, 119, 119, 0.21)",
                     "fillEnabled" : true,
                     "fillGradient" : {
                       "__class" : "LinearGradient",
@@ -259,7 +216,7 @@
                       "start" : "black"
                     },
                     "fillType" : "color",
-                    "height" : 256,
+                    "height" : 396,
                     "id" : "U1VVLwst0",
                     "lineCap" : "butt",
                     "lineJoin" : "miter",
@@ -277,9 +234,52 @@
                     "strokeWidth" : 1,
                     "targetName" : null,
                     "visible" : true,
-                    "width" : 256,
+                    "width" : 396,
                     "x" : 0,
                     "y" : 0
+                  },
+                  {
+                    "__class" : "PolygonShapeNode",
+                    "aspectRatioLocked" : true,
+                    "boxShadows" : [
+
+                    ],
+                    "exportOptions" : [
+
+                    ],
+                    "fillColor" : "#777777",
+                    "fillEnabled" : true,
+                    "fillGradient" : {
+                      "__class" : "LinearGradient",
+                      "alpha" : 1,
+                      "angle" : 0,
+                      "end" : "rgba(0,0,0,0)",
+                      "start" : "black"
+                    },
+                    "fillType" : "color",
+                    "height" : 64,
+                    "id" : "EmJ5BKUJu",
+                    "lineCap" : "butt",
+                    "lineJoin" : "miter",
+                    "locked" : false,
+                    "name" : "Pointer",
+                    "opacity" : 1,
+                    "parentid" : "Vnjg4GInW",
+                    "polygonSides" : 3,
+                    "radius" : 0,
+                    "rotation" : 0,
+                    "strokeAlignment" : "center",
+                    "strokeColor" : "#0AF",
+                    "strokeDashArray" : "0",
+                    "strokeDashOffset" : 0,
+                    "strokeEnabled" : 0,
+                    "strokeMiterLimit" : 4,
+                    "strokeWidth" : 1,
+                    "targetName" : null,
+                    "visible" : true,
+                    "width" : 64,
+                    "x" : 166,
+                    "y" : 32
                   },
                   {
                     "__class" : "OvalShapeNode",
@@ -421,7 +421,7 @@
                 "fillType" : "color",
                 "grayscale" : 0,
                 "grayScaleEnabled" : 0,
-                "height" : 256,
+                "height" : 396,
                 "heightFactor" : null,
                 "hueRotate" : 0,
                 "hueRotateEnabled" : 0,
@@ -449,8 +449,8 @@
                 "targetName" : "Puck",
                 "top" : null,
                 "visible" : true,
-                "width" : 256,
-                "widthFactor" : null
+                "width" : 396,
+                "widthFactor" : 0.38671875
               },
               {
                 "__class" : "FrameNode",

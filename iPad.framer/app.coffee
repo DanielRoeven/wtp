@@ -16,10 +16,20 @@ instantiateItemFor = (itemData) ->
 	if itemData.minutes == 0 then timeString += '0'
 	
 	item.childrenWithName('Time')[0].text = timeString
-	if itemData.shareTime then item.children[1].fill = activeColor
+	item.children[1].states.animationOptions =
+		time: 10.15
+	item.children[1].states.sharing =
+		fill: activeColor
+	if itemData.shareTime
+		item.children[1].animate('sharing')
 	
 	item.childrenWithName('Location')[0].text = itemData.location
-	if itemData.shareLocation then item.children[0].fill = activeColor
+	item.children[0].states.animationOptions =
+		time: .15
+	item.children[0].states.sharing =
+		fill: activeColor
+	if itemData.shareLocation
+		item.children[0].animate('sharing')
 	
 	unitPos = timeToXY(itemData)
 	offset = 320
@@ -35,7 +45,7 @@ instantiateItemFor = (itemData) ->
 	
 	item.states.selected =
 		scale: 1
-	
+
 	item.states.animationOptions =
 		time: .15
 	
@@ -64,7 +74,7 @@ tangibleInteractionInfo =
 	durationH: 1
 	durationM: 0
 	location: "Low"
-	shareTime: false
+	shareTime: true
 	shareLocation: false
 
 someEvent =
