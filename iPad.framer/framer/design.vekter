@@ -122,6 +122,49 @@
                 "centerAnchorY" : 0.5,
                 "children" : [
                   {
+                    "__class" : "PolygonShapeNode",
+                    "aspectRatioLocked" : true,
+                    "boxShadows" : [
+
+                    ],
+                    "exportOptions" : [
+
+                    ],
+                    "fillColor" : "hsl(0, 0%, 5%)",
+                    "fillEnabled" : true,
+                    "fillGradient" : {
+                      "__class" : "LinearGradient",
+                      "alpha" : 1,
+                      "angle" : 0,
+                      "end" : "rgba(0,0,0,0)",
+                      "start" : "black"
+                    },
+                    "fillType" : "color",
+                    "height" : 64,
+                    "id" : "EmJ5BKUJu",
+                    "lineCap" : "butt",
+                    "lineJoin" : "miter",
+                    "locked" : false,
+                    "name" : "Pointer",
+                    "opacity" : 1,
+                    "parentid" : "Vnjg4GInW",
+                    "polygonSides" : 3,
+                    "radius" : 0,
+                    "rotation" : 0,
+                    "strokeAlignment" : "center",
+                    "strokeColor" : "#0AF",
+                    "strokeDashArray" : "0",
+                    "strokeDashOffset" : 0,
+                    "strokeEnabled" : 0,
+                    "strokeMiterLimit" : 4,
+                    "strokeWidth" : 1,
+                    "targetName" : null,
+                    "visible" : true,
+                    "width" : 64,
+                    "x" : 96,
+                    "y" : -38
+                  },
+                  {
                     "__class" : "ImageNode",
                     "aspectRatioLocked" : true,
                     "blendingEnabled" : 0,
@@ -206,7 +249,7 @@
                     "exportOptions" : [
 
                     ],
-                    "fillColor" : "rgba(119, 119, 119, 0.21)",
+                    "fillColor" : "#0D0D0D",
                     "fillEnabled" : true,
                     "fillGradient" : {
                       "__class" : "LinearGradient",
@@ -216,7 +259,7 @@
                       "start" : "black"
                     },
                     "fillType" : "color",
-                    "height" : 396,
+                    "height" : 256,
                     "id" : "U1VVLwst0",
                     "lineCap" : "butt",
                     "lineJoin" : "miter",
@@ -234,52 +277,9 @@
                     "strokeWidth" : 1,
                     "targetName" : null,
                     "visible" : true,
-                    "width" : 396,
+                    "width" : 256,
                     "x" : 0,
                     "y" : 0
-                  },
-                  {
-                    "__class" : "PolygonShapeNode",
-                    "aspectRatioLocked" : true,
-                    "boxShadows" : [
-
-                    ],
-                    "exportOptions" : [
-
-                    ],
-                    "fillColor" : "#777777",
-                    "fillEnabled" : true,
-                    "fillGradient" : {
-                      "__class" : "LinearGradient",
-                      "alpha" : 1,
-                      "angle" : 0,
-                      "end" : "rgba(0,0,0,0)",
-                      "start" : "black"
-                    },
-                    "fillType" : "color",
-                    "height" : 64,
-                    "id" : "EmJ5BKUJu",
-                    "lineCap" : "butt",
-                    "lineJoin" : "miter",
-                    "locked" : false,
-                    "name" : "Pointer",
-                    "opacity" : 1,
-                    "parentid" : "Vnjg4GInW",
-                    "polygonSides" : 3,
-                    "radius" : 0,
-                    "rotation" : 0,
-                    "strokeAlignment" : "center",
-                    "strokeColor" : "#0AF",
-                    "strokeDashArray" : "0",
-                    "strokeDashOffset" : 0,
-                    "strokeEnabled" : 0,
-                    "strokeMiterLimit" : 4,
-                    "strokeWidth" : 1,
-                    "targetName" : null,
-                    "visible" : true,
-                    "width" : 64,
-                    "x" : 166,
-                    "y" : 32
                   },
                   {
                     "__class" : "OvalShapeNode",
@@ -421,7 +421,7 @@
                 "fillType" : "color",
                 "grayscale" : 0,
                 "grayScaleEnabled" : 0,
-                "height" : 396,
+                "height" : 256,
                 "heightFactor" : null,
                 "hueRotate" : 0,
                 "hueRotateEnabled" : 0,
@@ -449,8 +449,8 @@
                 "targetName" : "Puck",
                 "top" : null,
                 "visible" : true,
-                "width" : 396,
-                "widthFactor" : 0.38671875
+                "width" : 256,
+                "widthFactor" : null
               },
               {
                 "__class" : "FrameNode",
@@ -486,7 +486,7 @@
                         "__class" : "BoxShadow",
                         "blur" : 0,
                         "color" : "#333333",
-                        "enabled" : true,
+                        "enabled" : false,
                         "inset" : true,
                         "spread" : 0,
                         "x" : 0,
@@ -496,7 +496,7 @@
                     "exportOptions" : [
 
                     ],
-                    "fillColor" : "#DDDDDD",
+                    "fillColor" : "#CFCFCF",
                     "fillEnabled" : true,
                     "fillGradient" : {
                       "__class" : "LinearGradient",
@@ -522,10 +522,10 @@
                     "radiusTopRight" : 0,
                     "rotation" : 0,
                     "strokeAlignment" : "center",
-                    "strokeColor" : "#0AF",
+                    "strokeColor" : "#4F4F4F",
                     "strokeDashArray" : "0",
                     "strokeDashOffset" : 0,
-                    "strokeEnabled" : 0,
+                    "strokeEnabled" : 1,
                     "strokeMiterLimit" : 4,
                     "strokeWidth" : 1,
                     "targetName" : null,
@@ -543,7 +543,7 @@
                     "exportOptions" : [
 
                     ],
-                    "fillColor" : "#DDDDDD",
+                    "fillColor" : "#CFCFCF",
                     "fillEnabled" : true,
                     "fillGradient" : {
                       "__class" : "LinearGradient",
@@ -569,10 +569,10 @@
                     "radiusTopRight" : 8,
                     "rotation" : 0,
                     "strokeAlignment" : "center",
-                    "strokeColor" : "#0AF",
+                    "strokeColor" : "#4F4F4F",
                     "strokeDashArray" : "0",
                     "strokeDashOffset" : 0,
-                    "strokeEnabled" : 0,
+                    "strokeEnabled" : 1,
                     "strokeMiterLimit" : 4,
                     "strokeWidth" : 1,
                     "targetName" : null,
@@ -589,11 +589,11 @@
                     "blur" : 12,
                     "blurEnabled" : 0,
                     "blurType" : "layer",
-                    "bottom" : 0,
+                    "bottom" : -1,
                     "brightness" : 100,
                     "brightnessEnabled" : 0,
-                    "centerAnchorX" : 0.5,
-                    "centerAnchorY" : 0.8928571428571429,
+                    "centerAnchorX" : 0.50260416666666663,
+                    "centerAnchorY" : 0.9017857142857143,
                     "constraintsLocked" : false,
                     "contrast" : 100,
                     "contrastEnabled" : 0,
@@ -610,12 +610,12 @@
                     "id" : "wqda1PnE1",
                     "invert" : 0,
                     "invertEnabled" : 0,
-                    "left" : 0,
+                    "left" : 13,
                     "locked" : false,
-                    "name" : "Location",
+                    "name" : "LocationText",
                     "opacity" : 1,
                     "parentid" : "My_vTWidc",
-                    "right" : 0,
+                    "right" : 12,
                     "rotation" : 0,
                     "saturate" : 100,
                     "saturateEnabled" : 0,
@@ -630,12 +630,12 @@
                         {
                           "data" : {
                             "emptyStyle" : [
-                              "COLOR:rgb(0, 0, 0)",
                               "LETTERSPACING:0",
                               "LINEHEIGHT:1.2",
-                              "ALIGN:center",
                               "FONT:AvenirNext-Medium",
-                              "SIZE:18"
+                              "SIZE:18",
+                              "ALIGN:left",
+                              "COLOR:#4F4F4F"
                             ]
                           },
                           "depth" : 0,
@@ -643,11 +643,6 @@
 
                           ],
                           "inlineStyleRanges" : [
-                            {
-                              "length" : 3,
-                              "offset" : 0,
-                              "style" : "COLOR:rgb(0, 0, 0)"
-                            },
                             {
                               "length" : 3,
                               "offset" : 0,
@@ -661,17 +656,22 @@
                             {
                               "length" : 3,
                               "offset" : 0,
-                              "style" : "ALIGN:center"
-                            },
-                            {
-                              "length" : 3,
-                              "offset" : 0,
                               "style" : "FONT:AvenirNext-Medium"
                             },
                             {
                               "length" : 3,
                               "offset" : 0,
                               "style" : "SIZE:18"
+                            },
+                            {
+                              "length" : 3,
+                              "offset" : 0,
+                              "style" : "ALIGN:left"
+                            },
+                            {
+                              "length" : 3,
+                              "offset" : 0,
+                              "style" : "COLOR:#4F4F4F"
                             }
                           ],
                           "key" : "innr",
@@ -680,13 +680,13 @@
                         }
                       ],
                       "cached" : {
-                        "html" : "<span data-offset-key=\"innr-0-0\" style=\"tab-size:4;font-weight:500;font-family:&quot;AvenirNext-Medium&quot;, &quot;Avenir Next&quot;, serif;-webkit-text-fill-color:rgb(0, 0, 0);font-size:18px;letter-spacing:0px;line-height:1.2\"><span data-text=\"true\">Low<\/span><\/span>",
+                        "html" : "<span data-offset-key=\"innr-0-0\" style=\"tab-size:4;font-weight:500;font-family:&quot;AvenirNext-Medium&quot;, &quot;Avenir Next&quot;, serif;-webkit-text-fill-color:#4F4F4F;font-size:18px;letter-spacing:0px;line-height:1.2\"><span data-text=\"true\">Low<\/span><\/span>",
                         "os" : "10_13",
                         "size" : {
                           "height" : 21,
-                          "width" : 193
+                          "width" : 168
                         },
-                        "width" : 192
+                        "width" : 167
                       },
                       "entityMap" : {
 
@@ -695,7 +695,7 @@
                     "targetName" : null,
                     "top" : null,
                     "visible" : true,
-                    "width" : 192,
+                    "width" : 167,
                     "widthFactor" : null
                   },
                   {
@@ -709,7 +709,7 @@
                     "bottom" : null,
                     "brightness" : 100,
                     "brightnessEnabled" : 0,
-                    "centerAnchorX" : 0.5,
+                    "centerAnchorX" : 0.50260416666666663,
                     "centerAnchorY" : 0.2857142857142857,
                     "constraintsLocked" : false,
                     "contrast" : 100,
@@ -727,12 +727,12 @@
                     "id" : "km5vU5GPi",
                     "invert" : 0,
                     "invertEnabled" : 0,
-                    "left" : 0,
+                    "left" : 13,
                     "locked" : false,
-                    "name" : "Time",
+                    "name" : "TimeText",
                     "opacity" : 1,
                     "parentid" : "My_vTWidc",
-                    "right" : 0,
+                    "right" : 12,
                     "rotation" : 0,
                     "saturate" : 100,
                     "saturateEnabled" : 0,
@@ -747,12 +747,12 @@
                         {
                           "data" : {
                             "emptyStyle" : [
-                              "COLOR:rgb(0, 0, 0)",
                               "LETTERSPACING:0",
                               "LINEHEIGHT:1.2",
-                              "ALIGN:center",
                               "FONT:AvenirNext-Medium",
-                              "SIZE:18"
+                              "SIZE:18",
+                              "ALIGN:left",
+                              "COLOR:#4F4F4F"
                             ]
                           },
                           "depth" : 0,
@@ -760,11 +760,6 @@
 
                           ],
                           "inlineStyleRanges" : [
-                            {
-                              "length" : 13,
-                              "offset" : 0,
-                              "style" : "COLOR:rgb(0, 0, 0)"
-                            },
                             {
                               "length" : 13,
                               "offset" : 0,
@@ -778,17 +773,22 @@
                             {
                               "length" : 13,
                               "offset" : 0,
-                              "style" : "ALIGN:center"
-                            },
-                            {
-                              "length" : 13,
-                              "offset" : 0,
                               "style" : "FONT:AvenirNext-Medium"
                             },
                             {
                               "length" : 13,
                               "offset" : 0,
                               "style" : "SIZE:18"
+                            },
+                            {
+                              "length" : 13,
+                              "offset" : 0,
+                              "style" : "ALIGN:left"
+                            },
+                            {
+                              "length" : 13,
+                              "offset" : 0,
+                              "style" : "COLOR:#4F4F4F"
                             }
                           ],
                           "key" : "innr",
@@ -797,13 +797,13 @@
                         }
                       ],
                       "cached" : {
-                        "html" : "<span data-offset-key=\"innr-0-0\" style=\"tab-size:4;font-weight:500;font-family:&quot;AvenirNext-Medium&quot;, &quot;Avenir Next&quot;, serif;-webkit-text-fill-color:rgb(0, 0, 0);font-size:18px;letter-spacing:0px;line-height:1.2\"><span data-text=\"true\">13:15 - 15:15<\/span><\/span>",
+                        "html" : "<span data-offset-key=\"innr-0-0\" style=\"tab-size:4;font-weight:500;font-family:&quot;AvenirNext-Medium&quot;, &quot;Avenir Next&quot;, serif;-webkit-text-fill-color:#4F4F4F;font-size:18px;letter-spacing:0px;line-height:1.2\"><span data-text=\"true\">13:15 - 15:15<\/span><\/span>",
                         "os" : "10_13",
                         "size" : {
                           "height" : 21,
-                          "width" : 193
+                          "width" : 168
                         },
-                        "width" : 192
+                        "width" : 167
                       },
                       "entityMap" : {
 
@@ -812,7 +812,7 @@
                     "targetName" : null,
                     "top" : 16,
                     "visible" : true,
-                    "width" : 192,
+                    "width" : 167,
                     "widthFactor" : null
                   },
                   {
@@ -826,7 +826,7 @@
                     "bottom" : 32,
                     "brightness" : 100,
                     "brightnessEnabled" : 0,
-                    "centerAnchorX" : 0.5,
+                    "centerAnchorX" : 0.50260416666666663,
                     "centerAnchorY" : 0.5714285714285714,
                     "constraintsLocked" : false,
                     "contrast" : 100,
@@ -844,12 +844,12 @@
                     "id" : "UHtEwGPte",
                     "invert" : 0,
                     "invertEnabled" : 0,
-                    "left" : 0,
+                    "left" : 13,
                     "locked" : false,
-                    "name" : "Name",
+                    "name" : "NameText",
                     "opacity" : 1,
                     "parentid" : "My_vTWidc",
-                    "right" : 0,
+                    "right" : 12,
                     "rotation" : 0,
                     "saturate" : 100,
                     "saturateEnabled" : 0,
@@ -864,12 +864,12 @@
                         {
                           "data" : {
                             "emptyStyle" : [
-                              "COLOR:rgb(0, 0, 0)",
                               "LETTERSPACING:0",
                               "LINEHEIGHT:1.2",
-                              "ALIGN:center",
                               "FONT:AvenirNext-Medium",
-                              "SIZE:18"
+                              "SIZE:18",
+                              "ALIGN:left",
+                              "COLOR:#4F4F4F"
                             ]
                           },
                           "depth" : 0,
@@ -877,11 +877,6 @@
 
                           ],
                           "inlineStyleRanges" : [
-                            {
-                              "length" : 20,
-                              "offset" : 0,
-                              "style" : "COLOR:rgb(0, 0, 0)"
-                            },
                             {
                               "length" : 20,
                               "offset" : 0,
@@ -895,17 +890,22 @@
                             {
                               "length" : 20,
                               "offset" : 0,
-                              "style" : "ALIGN:center"
-                            },
-                            {
-                              "length" : 20,
-                              "offset" : 0,
                               "style" : "FONT:AvenirNext-Medium"
                             },
                             {
                               "length" : 20,
                               "offset" : 0,
                               "style" : "SIZE:18"
+                            },
+                            {
+                              "length" : 20,
+                              "offset" : 0,
+                              "style" : "ALIGN:left"
+                            },
+                            {
+                              "length" : 20,
+                              "offset" : 0,
+                              "style" : "COLOR:#4F4F4F"
                             }
                           ],
                           "key" : "innr",
@@ -914,13 +914,13 @@
                         }
                       ],
                       "cached" : {
-                        "html" : "<span data-offset-key=\"innr-0-0\" style=\"tab-size:4;font-weight:500;font-family:&quot;AvenirNext-Medium&quot;, &quot;Avenir Next&quot;, serif;-webkit-text-fill-color:rgb(0, 0, 0);font-size:18px;letter-spacing:0px;line-height:1.2\"><span data-text=\"true\">Tangible Interaction<\/span><\/span>",
+                        "html" : "<span data-offset-key=\"innr-0-0\" style=\"tab-size:4;font-weight:500;font-family:&quot;AvenirNext-Medium&quot;, &quot;Avenir Next&quot;, serif;-webkit-text-fill-color:#4F4F4F;font-size:18px;letter-spacing:0px;line-height:1.2\"><span data-text=\"true\">Tangible Interaction<\/span><\/span>",
                         "os" : "10_13",
                         "size" : {
                           "height" : 21,
-                          "width" : 193
+                          "width" : 168
                         },
-                        "width" : 192
+                        "width" : 167
                       },
                       "entityMap" : {
 
@@ -929,7 +929,7 @@
                     "targetName" : null,
                     "top" : null,
                     "visible" : true,
-                    "width" : 192,
+                    "width" : 167,
                     "widthFactor" : null
                   },
                   {
@@ -959,14 +959,14 @@
                     "name" : "Border",
                     "opacity" : 1,
                     "parentid" : "My_vTWidc",
-                    "radius" : 8,
-                    "radiusBottomLeft" : 8,
-                    "radiusBottomRight" : 8,
+                    "radius" : 2,
+                    "radiusBottomLeft" : 2,
+                    "radiusBottomRight" : 2,
                     "radiusPerCorner" : false,
-                    "radiusTopLeft" : 8,
-                    "radiusTopRight" : 8,
+                    "radiusTopLeft" : 2,
+                    "radiusTopRight" : 2,
                     "rotation" : 0,
-                    "strokeAlignment" : "inside",
+                    "strokeAlignment" : "center",
                     "strokeColor" : "#333333",
                     "strokeDashArray" : "0",
                     "strokeDashOffset" : 0,
@@ -974,7 +974,7 @@
                     "strokeMiterLimit" : 4,
                     "strokeWidth" : 2,
                     "targetName" : null,
-                    "visible" : true,
+                    "visible" : false,
                     "width" : 192,
                     "x" : 0,
                     "y" : 0
