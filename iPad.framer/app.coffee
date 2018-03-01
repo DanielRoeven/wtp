@@ -2,20 +2,23 @@
 screen = Framer.Device.screen
 Framer.Extras.Hints.disable()
 
-inactiveColor = '#DDDDDD'
-activeColor = '#22CCDD'
+inactiveColor = '#CFCFCF'
+inactiveBorderColor = '#4F4F4F'
+activeColor = '#AFD3E3'
+activeBorderColor = '#3497C1'
+activeTextColor = '#171717'
 Item_Template.opacity = 0
 
 instantiateItemFor = (itemData) ->
 	item = Item_Template.copy()
 	item.opacity = 1
 	
-	item.childrenWithName('Name')[0].text = itemData.name
+	item.childrenWithName('NameText')[0].text = itemData.name
 	
 	timeString = itemData.hour + ':' + itemData.minutes
 	if itemData.minutes == 0 then timeString += '0'
 	
-	item.childrenWithName('Time')[0].text = timeString
+	item.childrenWithName('TimeText')[0].text = timeString
 	item.children[1].states.animationOptions =
 		time: 10.15
 	item.children[1].states.sharing =
@@ -23,7 +26,7 @@ instantiateItemFor = (itemData) ->
 	if itemData.shareTime
 		item.children[1].animate('sharing')
 	
-	item.childrenWithName('Location')[0].text = itemData.location
+	item.childrenWithName('LocationText')[0].text = itemData.location
 	item.children[0].states.animationOptions =
 		time: .15
 	item.children[0].states.sharing =
@@ -176,12 +179,18 @@ Frame.onTouchStart (e) ->
 redrawItem = (activity) ->
 	if activity.shareTime
 		activity.children[1].fill = activeColor
+		activity.children[1].borderColor = activeBorderColor
+		activity.childrenWithName('NameText').color = activeTextColor
+		activity.childrenWithName('TimeText').color = activeTextColor
 	else
 		activity.children[1].fill = inactiveColor
+		activity.children[1].borderColor = inactiveBorderColor
 	if activity.shareLocation
 		activity.children[0].fill = activeColor
+		activity.children[0].borderColor = activeBorderColor
 	else
 		activity.children[0].fill = inactiveColor
+		activity.children[0].borderColor = inactiveBorderColor
 		
 # Create XMLHttpRequest
 callback = (data) ->
