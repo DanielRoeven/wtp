@@ -2,6 +2,14 @@
 screen = Framer.Device.screen
 Framer.Extras.Hints.disable()
 
+fragments = {
+	33: [Segment2, Segment3], 
+	42: [Segment4, Segment5],
+	51: [Segment6, Segment7],
+	60: [Segment8, Segment9],
+	69: [Segment10]
+	};
+
 inactiveColor = '#CFCFCF'
 inactiveBorderColor = '#4F4F4F'
 activeColor = '#AFD3E3'
@@ -344,12 +352,27 @@ Frame.onTouchStart (e) ->
 	if (e.touches.length > 2 && selectedActivity)
 		if (!selectedActivity.shareTime)
 			selectedActivity.shareTime = true
+			redrawSegments(fragments[selectedActivity.id], "1")
 		else if (!selectedActivity.shareLocation)
 			selectedActivity.shareLocation = true
+			redrawSegments(fragments[selectedActivity.id], "2")
 		else
 			selectedActivity.shareTime = false
 			selectedActivity.shareLocation = false
+			redrawSegments(fragments[selectedActivity.id], "0")
 		redrawItem(selectedActivity)
+
+redrawSegments = (segments, state) ->
+	len = Object.keys(segments).length
+	if (state == "1")
+		for i in [0...len]
+			segments[i].fill = activeColor
+	else if (state == "2")
+		for i in [0...len]
+			segments[i].fill = activeBorderColor
+	else
+		for i in [0...len]
+			segments[i].fill = inactiveColor
 
 redrawItem = (activity) ->
 	if activity.shareTime
@@ -370,7 +393,6 @@ redrawItem = (activity) ->
 		activity.children[0].fill = inactiveColor
 		activity.children[0].borderColor = inactiveBorderColor
 		activity.childrenWithName('LocationText').color = i
-		
 # Create XMLHttpRequest
 callback = (data) ->
 	print data
@@ -386,6 +408,3 @@ r.onreadystatechange = ->
 		else
 			print r.status
 #r.send()
-
-
-
