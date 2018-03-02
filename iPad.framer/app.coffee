@@ -69,66 +69,241 @@ timeToDegree = (hours, minutes) ->
 	myHours = (hours % 12) + myMinutes
 	degree = myHours / 12 * 2 * 180
 
-# Items Data
-tangibleInteractionInfo =
-	name: "Tangible Interaction"
-	hour: 9
-	minutes: 15
-	durationH: 1
-	durationM: 0
-	location: "Low"
-	shareTime: true
-	shareLocation: false
 
-someEvent =
-	name: "someEvent"
-	hour: 10
-	minutes: 15
-	durationH: 2
-	durationM: 0
-	location: "Low"
-	shareTime: false
-	shareLocation: false
+# Person Dalan 
+dalan =
+	standupMeeting =
+		name: "Stand up meeting"
+		hour: 8
+		minutes: 0
+		durationH: 1
+		durationM: 0
+		location: "Room 101"
+		shareTime: false
+		shareLocation: false
 
-lunchInfo =
-	name: "Lunch Break"
-	hour: 12
-	minutes: 0
-	durationH: 1
-	durationM: 0
-	location: "High"
-	shareTime: false
-	shareLocation: false
+	clientMeeting =
+		name: "Meeting with Client"
+		hour: 10
+		minutes: 0
+		durationH: 2
+		durationM: 0
+		location: "Office 201"
+		shareTime: false
+		shareLocation: false
 
-informationVisualisationLectureInfo =
-	name: "Info Vis Lecture"
-	hour: 13
-	minutes: 15
-	durationH: 2
-	durationM: 0
-	location: " Alfa"
-	shareTime: false
-	shareLocation: false
+	lunchInfo =
+		name: "Lunch Break"
+		hour: 12
+		minutes: 0
+		durationH: 1
+		durationM: 0
+		location: "Out of Office"
+		shareTime: false
+		shareLocation: false
 
-informationVisualisationWorkshopInfo =
-	name: "Info Vis Workshop"
-	hour: 15
-	minutes: 15
-	durationH: 2
-	durationM: 0
-	location: "Jupiter 128"
-	shareTime: false
-	shareLocation: false
+	presentationEvent =
+		name: "Presentation Event"
+		hour: 14
+		minutes: 0
+		durationH: 1
+		durationM: 0
+		location: "Big hall"
+		shareTime: false
+		shareLocation: false
 
-anotherOne =
-	name: "anotherOne"
-	hour: 17
-	minutes: 15
-	durationH: 2
-	durationM: 0
-	location: "Someplace"
-	shareTime: false
-	shareLocation: false
+	brainstormingWorkshop =
+		name: "Brainstorming Workshop"
+		hour: 16
+		minutes: 0
+		durationH: 1
+		durationM: 0
+		location: "Room 101"
+		shareTime: false
+		shareLocation: false
+
+
+# Person Pol
+pol = 
+	halftimeMeeting =
+		name: "Half time meeting"
+		hour: 9
+		minutes: 0
+		durationH: 1
+		durationM: 0
+		location: "Office 134"
+		shareTime: true
+		shareLocation: false
+
+	interview =
+		name: "Skype Interview"
+		hour: 11
+		minutes: 0
+		durationH: 1
+		durationM: 0
+		location: "Room 12"
+		shareTime: true
+		shareLocation: false
+
+	lunchtime =
+		name: "Lunch Break"
+		hour: 12
+		minutes: 0
+		durationH: 1
+		durationM: 0
+		location: "Out of Office"
+		shareTime: false
+		shareLocation: false
+
+	presentationEvent =
+		name: "Presentation Event"
+		hour: 14
+		minutes: 0
+		durationH: 1
+		durationM: 0
+		location: "Big hall"
+		shareTime: false
+		shareLocation: false
+
+	researchtime=
+		name: "Research time"
+		hour: 15
+		minutes: 0
+		durationH: 1
+		durationM: 0
+		location: "Office 40"
+		shareTime: false
+		shareLocation: false
+
+
+# Person Maitas
+maitas = 
+	developing =
+		name: "App Development"
+		hour: 8
+		minutes: 0
+		durationH: 2
+		durationM: 0
+		location: "Room 17"
+		shareTime: false
+		shareLocation: false
+
+	clientMeeting =
+		name: "Meeting with Client"
+		hour: 11
+		minutes: 0
+		durationH: 2
+		durationM: 0
+		location: "Room 101"
+		shareTime: false
+		shareLocation: false
+
+	lunchtime =
+		name: "Lunch Break"
+		hour: 13
+		minutes: 0
+		durationH: 1
+		durationM: 0
+		location: "Kitchen Area"
+		shareTime: false
+		shareLocation: false
+
+
+
+# Person Matalda
+matalda = 
+	scrummeeting =
+		name: "Scrum Meeting"
+		hour: 8
+		minutes: 0
+		durationH: 1
+		durationM: 0
+		location: "Room 55"
+		shareTime: false
+		shareLocation: false
+
+	usertesting =
+		name: "User testing"
+		hour: 10
+		minutes: 0
+		durationH: 2
+		durationM: 0
+		location: "At Client's Office"
+		shareTime: false
+		shareLocation: false
+
+	lunchtime =
+		name: "Lunch Break"
+		hour: 12
+		minutes: 0
+		durationH: 1
+		durationM: 0
+		location: "Kitchen Area"
+		shareTime: false
+		shareLocation: false
+
+	clientMeeting =
+		name: "Meeting with Client"
+		hour: 13
+		minutes: 0
+		durationH: 2
+		durationM: 0
+		location: "Room 201"
+		shareTime: false
+		shareLocation: false
+
+	interview =
+		name: "Skype Interview"
+		hour: 15
+		minutes: 0
+		durationH: 2
+		durationM: 0
+		location: "Office 12"
+		shareTime: true
+		shareLocation: false	
+
+
+# Person Ala
+ala = 
+	standupMeeting =
+		name: "Standup Meetin"
+		hour: 8
+		minutes: 0
+		durationH: 1
+		durationM: 0
+		location: "Room 201"
+		shareTime: false
+		shareLocation: false
+
+	presentationEvent =
+		name: "Presentation Even"
+		hour: 10
+		minutes: 0
+		durationH: 2
+		durationM: 0
+		location: "Big Hall"
+		shareTime: true
+		shareLocation: false	
+
+	lunchtime =
+		name: "Lunch Break"
+		hour: 12
+		minutes: 0
+		durationH: 1
+		durationM: 0
+		location: "Out of Office"
+		shareTime: false
+		shareLocation: false
+	
+	brainstormingWorkshop =
+		name: "Brainstorming Workshop"
+		hour: 14
+		minutes: 0
+		durationH: 3
+		durationM: 0
+		location: "Room 101"
+		shareTime: false
+		shareLocation: false
 
 tangibleInteraction = instantiateItemFor(tangibleInteractionInfo)
 someEvent = instantiateItemFor(someEvent)
