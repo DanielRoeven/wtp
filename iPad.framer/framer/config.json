@@ -1,7 +1,7 @@
 {
   "orientation" : 90,
   "updateDelay" : 0,
-  "designModeSelected" : 0,
+  "designModeSelected" : 1,
   "cachedDeviceHeight" : 768,
   "contentScale" : 1,
   "cachedDeviceWidth" : 1024,
@@ -16,11 +16,20 @@
   "selectedHand" : "",
   "showBezel" : true,
   "foldedCodeRanges" : [
-    "{374, 1157}",
-    "{1532, 261}",
-    "{1794, 137}",
-    "{1945, 950}",
-    "{5769, 345}"
+    "{258, 415}",
+    "{674, 284}",
+    "{959, 1221}",
+    "{2181, 261}",
+    "{2443, 137}",
+    "{2581, 856}",
+    "{3438, 825}",
+    "{4264, 505}",
+    "{4770, 834}",
+    "{5605, 685}",
+    "{6291, 549}",
+    "{6841, 662}",
+    "{8326, 889}",
+    "{9216, 355}"
   ],
   "deviceScale" : "fit"
 }

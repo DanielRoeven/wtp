@@ -2,24 +2,47 @@
 screen = Framer.Device.screen
 Framer.Extras.Hints.disable()
 
-fragments = {
-	33: [Segment2, Segment3], 
-	42: [Segment4, Segment5],
-	51: [Segment6, Segment7],
-	60: [Segment8, Segment9],
-	69: [Segment10]
-	};
-
 inactiveColor = '#CFCFCF'
 inactiveBorderColor = '#4F4F4F'
-activeColor = '#AFD3E3'
-activeBorderColor = '#3497C1'
+activeColor = '#37A3D2'
+activeBorderColor = '#317490'
 activeTextColor = '#171717'
 Item_Template.opacity = 0
+Segment_Template.opacity = 0
+
+instantiateSegment = (startHour) ->
+	segment = Segment_Template.copy()
+	segment.opacity = 1
+	index = (startHour) %% 12
+	segment.rotation += index * 30
+	
+	segment.children[0].states.shareNothing =
+		fill: inactiveColor
+	segment.children[0].states.shareTime =
+		fill: activeColor
+	segment.children[0].states.shareLocation =
+		fill: activeBorderColor
+	segment.children[0].stateSwitch('shareNothing')
+	
+	return segment
+
+# Create Segments Object
+segments =
+	8: instantiateSegment(8)
+	9: instantiateSegment(9)
+	10: instantiateSegment(10)
+	11: instantiateSegment(11)
+	12: instantiateSegment(12)
+	13: instantiateSegment(13)
+	14: instantiateSegment(14)
+	15: instantiateSegment(15)
+	16: instantiateSegment(16)
 
 instantiateItemFor = (itemData) ->
 	item = Item_Template.copy()
 	item.opacity = 1
+	item.hour = itemData.hour
+	item.durationH = itemData.durationH
 	
 	item.childrenWithName('NameText')[0].text = itemData.name
 	
@@ -77,10 +100,9 @@ timeToDegree = (hours, minutes) ->
 	myHours = (hours % 12) + myMinutes
 	degree = myHours / 12 * 2 * 180
 
-
 # Person Dalan 
 dalan =
-	standupMeeting =
+	standupMeeting: 
 		name: "Stand up meeting"
 		hour: 8
 		minutes: 0
@@ -89,8 +111,7 @@ dalan =
 		location: "Room 101"
 		shareTime: false
 		shareLocation: false
-
-	clientMeeting =
+	clientMeeting:
 		name: "Meeting with Client"
 		hour: 10
 		minutes: 0
@@ -99,8 +120,7 @@ dalan =
 		location: "Office 201"
 		shareTime: false
 		shareLocation: false
-
-	lunchInfo =
+	lunchInfo:
 		name: "Lunch Break"
 		hour: 12
 		minutes: 0
@@ -109,8 +129,7 @@ dalan =
 		location: "Out of Office"
 		shareTime: false
 		shareLocation: false
-
-	presentationEvent =
+	presentationEvent:
 		name: "Presentation Event"
 		hour: 14
 		minutes: 0
@@ -119,8 +138,7 @@ dalan =
 		location: "Big hall"
 		shareTime: false
 		shareLocation: false
-
-	brainstormingWorkshop =
+	brainstormingWorkshop:
 		name: "Brainstorming Workshop"
 		hour: 16
 		minutes: 0
@@ -130,10 +148,9 @@ dalan =
 		shareTime: false
 		shareLocation: false
 
-
 # Person Pol
 pol = 
-	halftimeMeeting =
+	halftimeMeeting:
 		name: "Half time meeting"
 		hour: 9
 		minutes: 0
@@ -142,8 +159,7 @@ pol =
 		location: "Office 134"
 		shareTime: true
 		shareLocation: false
-
-	interview =
+	interview:
 		name: "Skype Interview"
 		hour: 11
 		minutes: 0
@@ -152,8 +168,7 @@ pol =
 		location: "Room 12"
 		shareTime: true
 		shareLocation: false
-
-	lunchtime =
+	lunchtime:
 		name: "Lunch Break"
 		hour: 12
 		minutes: 0
@@ -162,8 +177,7 @@ pol =
 		location: "Out of Office"
 		shareTime: false
 		shareLocation: false
-
-	presentationEvent =
+	presentationEvent:
 		name: "Presentation Event"
 		hour: 14
 		minutes: 0
@@ -172,8 +186,7 @@ pol =
 		location: "Big hall"
 		shareTime: false
 		shareLocation: false
-
-	researchtime=
+	researchtime:
 		name: "Research time"
 		hour: 15
 		minutes: 0
@@ -183,10 +196,9 @@ pol =
 		shareTime: false
 		shareLocation: false
 
-
 # Person Maitas
-maitas = 
-	developing =
+maitas: 
+	developing:
 		name: "App Development"
 		hour: 8
 		minutes: 0
@@ -196,7 +208,7 @@ maitas =
 		shareTime: false
 		shareLocation: false
 
-	clientMeeting =
+	clientMeeting:
 		name: "Meeting with Client"
 		hour: 11
 		minutes: 0
@@ -206,7 +218,7 @@ maitas =
 		shareTime: false
 		shareLocation: false
 
-	lunchtime =
+	lunchtime:
 		name: "Lunch Break"
 		hour: 13
 		minutes: 0
@@ -216,11 +228,9 @@ maitas =
 		shareTime: false
 		shareLocation: false
 
-
-
 # Person Matalda
 matalda = 
-	scrummeeting =
+	scrummeeting:
 		name: "Scrum Meeting"
 		hour: 8
 		minutes: 0
@@ -230,7 +240,7 @@ matalda =
 		shareTime: false
 		shareLocation: false
 
-	usertesting =
+	usertesting:
 		name: "User testing"
 		hour: 10
 		minutes: 0
@@ -240,7 +250,7 @@ matalda =
 		shareTime: false
 		shareLocation: false
 
-	lunchtime =
+	lunchtime:
 		name: "Lunch Break"
 		hour: 12
 		minutes: 0
@@ -250,7 +260,7 @@ matalda =
 		shareTime: false
 		shareLocation: false
 
-	clientMeeting =
+	clientMeeting:
 		name: "Meeting with Client"
 		hour: 13
 		minutes: 0
@@ -260,7 +270,7 @@ matalda =
 		shareTime: false
 		shareLocation: false
 
-	interview =
+	interview:
 		name: "Skype Interview"
 		hour: 15
 		minutes: 0
@@ -270,10 +280,9 @@ matalda =
 		shareTime: true
 		shareLocation: false	
 
-
 # Person Ala
 ala = 
-	standupMeeting =
+	standupMeeting:
 		name: "Standup Meetin"
 		hour: 8
 		minutes: 0
@@ -283,7 +292,7 @@ ala =
 		shareTime: false
 		shareLocation: false
 
-	presentationEvent =
+	presentationEvent:
 		name: "Presentation Even"
 		hour: 10
 		minutes: 0
@@ -293,7 +302,7 @@ ala =
 		shareTime: true
 		shareLocation: false	
 
-	lunchtime =
+	lunchtime:
 		name: "Lunch Break"
 		hour: 12
 		minutes: 0
@@ -303,7 +312,7 @@ ala =
 		shareTime: false
 		shareLocation: false
 	
-	brainstormingWorkshop =
+	brainstormingWorkshop:
 		name: "Brainstorming Workshop"
 		hour: 14
 		minutes: 0
@@ -313,20 +322,21 @@ ala =
 		shareTime: false
 		shareLocation: false
 
-tangibleInteraction = instantiateItemFor(tangibleInteractionInfo)
-someEvent = instantiateItemFor(someEvent)
-lunch = instantiateItemFor(lunchInfo)
-lecture = instantiateItemFor(informationVisualisationLectureInfo)
-workshop = instantiateItemFor(informationVisualisationWorkshopInfo)
-anotherOne = instantiateItemFor(anotherOne)
+# Create items
+standupMeeting = instantiateItemFor(dalan.standupMeeting)
+clientMeeting = instantiateItemFor(dalan.clientMeeting)
+lunchInfo = instantiateItemFor(dalan.lunchInfo)
+presentationEvent = instantiateItemFor(dalan.presentationEvent)
+brainstormingWorkshop = instantiateItemFor(dalan.brainstormingWorkshop)
 
-activities = [tangibleInteraction, someEvent, lunch, lecture, workshop, anotherOne]
+activities = [standupMeeting, clientMeeting, lunchInfo, presentationEvent, brainstormingWorkshop]
 
 Puck.pinchable.enabled = true;
 Puck.pinchable.scale = false;
 Puck.pinchable.centerOrigin = false;
 Puck.pinchable.rotateIncrements = .5;
 
+# Select by rotate
 Puck.onRotate ->
 	rotateToSelect()
 
@@ -348,31 +358,27 @@ rotateToSelect = Utils.throttle .1, ->
 		if (deselected && !selected)
 			selectedActivity = null
 
+# Change on press (third touch)
 Frame.onTouchStart (e) ->
 	if (e.touches.length > 2 && selectedActivity)
 		if (!selectedActivity.shareTime)
 			selectedActivity.shareTime = true
-			redrawSegments(fragments[selectedActivity.id], "1")
+			redrawSegments(selectedActivity.hour, selectedActivity.durationH, 'shareTime')
 		else if (!selectedActivity.shareLocation)
 			selectedActivity.shareLocation = true
-			redrawSegments(fragments[selectedActivity.id], "2")
+			redrawSegments(selectedActivity.hour, selectedActivity.durationH, 'shareLocation')
 		else
 			selectedActivity.shareTime = false
 			selectedActivity.shareLocation = false
-			redrawSegments(fragments[selectedActivity.id], "0")
+			redrawSegments(selectedActivity.hour, selectedActivity.durationH, 'shareNothing')
 		redrawItem(selectedActivity)
 
-redrawSegments = (segments, state) ->
-	len = Object.keys(segments).length
-	if (state == "1")
-		for i in [0...len]
-			segments[i].fill = activeColor
-	else if (state == "2")
-		for i in [0...len]
-			segments[i].fill = activeBorderColor
-	else
-		for i in [0...len]
-			segments[i].fill = inactiveColor
+redrawSegments = (time, duration, sharing) ->
+	for i in [0 ... duration]
+		newTime = time + i
+		print newTime
+		segment = segments[String(newTime)]
+		segment.children[0].animate(sharing)
 
 redrawItem = (activity) ->
 	if activity.shareTime
@@ -392,7 +398,8 @@ redrawItem = (activity) ->
 	else
 		activity.children[0].fill = inactiveColor
 		activity.children[0].borderColor = inactiveBorderColor
-		activity.childrenWithName('LocationText').color = i
+		activity.childrenWithName('LocationText').color = inactiveBorderColor
+
 # Create XMLHttpRequest
 callback = (data) ->
 	print data
