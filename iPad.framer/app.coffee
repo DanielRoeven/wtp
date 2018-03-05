@@ -386,19 +386,19 @@ redrawSegments = (time, duration, sharing) ->
 redrawItem = (activity) ->
 	if activity.shareTime
 		activity.children[1].fill = activeTimeColor
-		activity.children[1].borderColor = activeTimeBorderColor
+		activity.children[1].fill.borderColor = activeTimeBorderColor
 		activity.childrenWithName('NameText').color = activeTextColor
 		activity.childrenWithName('TimeText').color = activeTextColor
 	else
 		activity.children[1].fill = inactiveColor
-		activity.children[1].borderColor = inactiveBorderColor
+		activity.children[1].fill.borderColor = inactiveBorderColor
 		activity.childrenWithName('NameText').color = inactiveBorderColor
 		activity.childrenWithName('TimeText').color = inactiveBorderColor
 	if activity.shareLocation
 		activity.children[0].fill = activePLaceColor
-		activity.children[0].borderColor = activePlaceBorderColor
+		activity.children[0].fill.borderColor = activePlaceBorderColor
 		activity.children[1].fill = activePlaceColor
-		activity.children[1].borderColor = activePlaceBorderColor
+		activity.children[1].fill.borderColor = activePlaceBorderColor
 		activity.childrenWithName('LocationText').color = activeTextColor
 	else
 		activity.children[0].fill = inactiveColor
