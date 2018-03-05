@@ -2,10 +2,13 @@
 screen = Framer.Device.screen
 Framer.Extras.Hints.disable()
 
-inactiveColor = '#CFCFCF'
+#inactiveColor = '#CFCFCF'
+inactiveColor = '#9E9E9E'
 inactiveBorderColor = '#4F4F4F'
-activeColor = '#37A3D2'
-activeBorderColor = '#317490'
+activeTimeColor = '#B8D8E5'
+activePlaceColor = '#379FCC'
+activeTimeBorderColor = '#3497C1'
+activePlaceBorderColor = '#0374A3'
 activeTextColor = '#171717'
 Item_Template.opacity = 0
 Segment_Template.opacity = 0
@@ -382,8 +385,8 @@ redrawSegments = (time, duration, sharing) ->
 
 redrawItem = (activity) ->
 	if activity.shareTime
-		activity.children[1].fill = activeColor
-		activity.children[1].borderColor = activeBorderColor
+		activity.children[1].fill = activeTimeColor
+		activity.children[1].borderColor = activeTimeBorderColor
 		activity.childrenWithName('NameText').color = activeTextColor
 		activity.childrenWithName('TimeText').color = activeTextColor
 	else
@@ -392,8 +395,10 @@ redrawItem = (activity) ->
 		activity.childrenWithName('NameText').color = inactiveBorderColor
 		activity.childrenWithName('TimeText').color = inactiveBorderColor
 	if activity.shareLocation
-		activity.children[0].fill = activeColor
-		activity.children[0].borderColor = activeBorderColor
+		activity.children[0].fill = activePLaceColor
+		activity.children[0].borderColor = activePlaceBorderColor
+		activity.children[1].fill = activePlaceColor
+		activity.children[1].borderColor = activePlaceBorderColor
 		activity.childrenWithName('LocationText').color = activeTextColor
 	else
 		activity.children[0].fill = inactiveColor
