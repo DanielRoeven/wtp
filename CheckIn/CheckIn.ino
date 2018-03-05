@@ -5,8 +5,8 @@
 #include <SPI.h>
 #include <MFRC522.h>
 
-constexpr uint8_t RST_PIN = 9;
-constexpr uint8_t SS_PIN = 10;
+constexpr uint8_t RST_PIN = 0;
+constexpr uint8_t SS_PIN = 15;
  
 MFRC522 rfid(SS_PIN, RST_PIN);    // Instance of the class
 
@@ -29,11 +29,11 @@ int  IDState[6] = {0, 0, 0, 0, 0, 0,};
 #include <Adafruit_NeoPixel.h>
 #include "Definitions.h"
 
-#define PIN 4
+#define PIN 2
 #define LED_COUNT 16
 
 // Create an instance of the Adafruit_NeoPixel class called "leds".
-Adafruit_NeoPixel leds = Adafruit_NeoPixel(LED_COUNT, PIN, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel leds = Adafruit_NeoPixel(LED_COUNT, D2, NEO_GRB + NEO_KHZ800);
 
 
 //////////////////////

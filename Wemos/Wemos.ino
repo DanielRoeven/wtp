@@ -41,7 +41,7 @@ void setup() {
 
   // Responding to regular GET requests with a CORS header
   server.on("/", HTTP_GET, []() {
-    String response = "Time flies like an arrow, fruit flies like a kiwi.";
+    String response = "0,1,0,0,0,0";
 
     // Set CORS headers to allow access from any domain
     server.sendHeader("Access-Control-Allow-Origin", "*");
