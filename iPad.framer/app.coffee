@@ -7,6 +7,7 @@ inactiveBorderColor = '#4F4F4F'
 activeColor = '#37A3D2'
 activeBorderColor = '#317490'
 activeTextColor = '#171717'
+allActivityStatus = 'shareNothing'
 Item_Template.opacity = 0
 Segment_Template.opacity = 0
 
@@ -344,34 +345,60 @@ selectedActivity = null
 rotateToSelect = Utils.throttle .1, ->
 		selected = false
 		deselected = false
+		allSelected = false
 		puckRotation = Puck.rotation %% 360
-		for activity in activities
-			inBounds = (puckRotation + 10 >= activity.degree) &&  (puckRotation + 10 < activity.degree + activity.duration)
-			state = activity.states.current.name
-			if (state == 'selected' && !inBounds)
-				activity.animate('default')
-				deselected = true
-			else if (state == 'default' && inBounds)
+		if (puckRotation <= 225 && puckRotation >= 165)
+			selectedActivity = activities
+			allSelected = true
+			for activity in activities
 				activity.animate('selected')
-				selectedActivity = activity
-				selected = true
-		if (deselected && !selected)
-			selectedActivity = null
+		else
+			for activity in activities
+				inBounds = (puckRotation + 10 >= activity.degree) &&  (puckRotation + 10 < activity.degree + activity.duration)
+				state = activity.states.current.name
+				if (state == 'selected' && !inBounds)
+					activity.animate('default')
+					deselected = true
+				else if (state == 'default' && inBounds)
+					activity.animate('selected')
+					selectedActivity = activity
+					selected = true
+			if (deselected && !selected)
+				selectedActivity = null
 
 # Change on press (third touch)
 Frame.onTouchStart (e) ->
 	if (e.touches.length > 2 && selectedActivity)
-		if (!selectedActivity.shareTime)
-			selectedActivity.shareTime = true
-			redrawSegments(selectedActivity.hour, selectedActivity.durationH, 'shareTime')
-		else if (!selectedActivity.shareLocation)
-			selectedActivity.shareLocation = true
-			redrawSegments(selectedActivity.hour, selectedActivity.durationH, 'shareLocation')
+		if allselected
+			for activity in activities
+				updateActivityStatus(activity)
+			switch allActivityStatus
+				when 'shareNothing'
+					allActivityStatus = 'shareTime'
+					break
+				when 'shareTime'
+					allActivityStatus = 'shareLocation'
+					break
+				else
+					allActivityStatus = 'shareNothing'
 		else
-			selectedActivity.shareTime = false
-			selectedActivity.shareLocation = false
-			redrawSegments(selectedActivity.hour, selectedActivity.durationH, 'shareNothing')
-		redrawItem(selectedActivity)
+			updateActivityStatus(selectedActivity)
+
+updateActivityStatus = (activity) ->
+	if (allSelected)
+		redrawSegments(activity.hour, activity.durationH, allActivityStatus)
+	else 
+		if (!activity.shareTime)
+			activity.shareTime = true
+			redrawSegments(activity.hour, activity.durationH, 'shareTime')
+		else if (!activity.shareLocation)
+			activity.shareLocation = true
+			redrawSegments(activity.hour, activity.durationH, 'shareLocation')
+		else
+			activity.shareTime = false
+			activity.shareLocation = false
+			redrawSegments(activity.hour, activity.durationH, 'shareNothing')
+		redrawItem(activity)
 
 redrawSegments = (time, duration, sharing) ->
 	for i in [0 ... duration]
