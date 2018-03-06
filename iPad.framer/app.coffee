@@ -337,6 +337,8 @@ Puck.pinchable.scale = false;
 Puck.pinchable.centerOrigin = false;
 Puck.pinchable.rotateIncrements = .5;
 
+
+allSelected = false
 # Select by rotate
 Puck.onRotate ->
 	rotateToSelect()
@@ -369,7 +371,7 @@ rotateToSelect = Utils.throttle .1, ->
 # Change on press (third touch)
 Frame.onTouchStart (e) ->
 	if (e.touches.length > 2 && selectedActivity)
-		if allselected
+		if allSelected
 			for activity in activities
 				updateActivityStatus(activity)
 			switch allActivityStatus
@@ -387,6 +389,7 @@ Frame.onTouchStart (e) ->
 updateActivityStatus = (activity) ->
 	if (allSelected)
 		redrawSegments(activity.hour, activity.durationH, allActivityStatus)
+		redrawItem(activity)
 	else 
 		if (!activity.shareTime)
 			activity.shareTime = true
@@ -403,7 +406,6 @@ updateActivityStatus = (activity) ->
 redrawSegments = (time, duration, sharing) ->
 	for i in [0 ... duration]
 		newTime = time + i
-		print newTime
 		segment = segments[String(newTime)]
 		segment.children[0].animate(sharing)
 

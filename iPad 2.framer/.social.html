@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+
+	<meta name="format-detection" content="telephone=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+	<script type="text/javascript">
+		// This automatically sets the right viewport scale on mobile devices
+		(function () {
+			var scale = 1 / window.devicePixelRatio
+			var viewport = "width=device-width, height=device-height, initial-scale=" + scale + ", maximum-scale=" + scale + ", user-scalable=no, viewport-fit=cover"
+			var iOS = /iPad|iPhone|iPod/.test(navigator.platform)
+			if (iOS) { viewport += ", shrink-to-fit=no" }
+			document.write("<meta name=\"viewport\" content=\"" + viewport + "\">")
+		})()
+	</script>
+
+	<link rel="apple-touch-icon" href="framer/images/icon-120.png">
+	<link rel="apple-touch-icon" href="framer/images/icon-76.png" sizes="76x76">
+	<link rel="apple-touch-icon" href="framer/images/icon-120.png" sizes="120x120">
+	<link rel="apple-touch-icon" href="framer/images/icon-152.png" sizes="152x152">
+	<link rel="apple-touch-icon" href="framer/images/icon-180.png" sizes="180x180">
+	<link rel="apple-touch-icon" href="framer/images/icon-192.png" sizes="192x192">
+
+	<link rel="stylesheet" type="text/css" href="framer/style.css?nocache=6d40bc53861208d298f85019e08849ff">
+
+	<script src="framer/coffee-script.js"></script>
+	<script src="framer/framer.js?nocache=6e0622558192d2cb170bc9d12473061c"></script>
+	<script src="framer/framer.generated.js?nocache=e40645ae121e3fbd055196803dd2d402"></script>
+	<script src="framer/framer.modules.js?nocache=657fe6db204dd532faab2b87ca930135"></script>
+	<script src="framer/framer.vekter.js"></script>
+	<script>Framer.Device.hideBezel = false</script><script>document.addEventListener("DOMContentLoaded", function() {window.__framerClientCodeId = 1306;window.__framerNew = function (n,loc,th,i){if (i == null) { return i };i.__framerInstanceInfo = _.defaults({name:n,location:loc,hash:th},i.__framerInstanceInfo);_.defaults(i.__framerInstanceInfo,{name:"Untitled"});return i;};(function() {
+  var GETRequest, HTTPRequest, Item1, body, callback, screen, tangibleInteraction, timeToXY, url;
+
+  HTTPRequest = require("HTTPRequest");
+
+  screen = Framer.Device.screen;
+
+  Framer.Extras.Hints.disable();
+
+  Item1 = window.__framerNew("Item1", "5:8-5:27", "@Layer",Item_Template.copy());
+
+  Item_Template.opacity = 0;
+
+  timeToXY = function(item) {
+    var hours, minutes, unitLength, x, y;
+    minutes = (item.minute % 60) / 60;
+    hours = (item.hour % 12) + minutes;
+    unitLength = hours / 12 * 2 * Math.PI;
+    print("Angle in Radians: " + unitLength);
+    x = Math.sin(unitLength);
+    x = Math.round(x * 100) / 100;
+    y = Math.cos(unitLength);
+    y = Math.round(y * 100) / 100;
+    print("X position: " + x);
+    return print("Y position: " + y);
+  };
+
+  tangibleInteraction = {
+    name: "Tangible Interaction",
+    hour: 9,
+    minute: 15,
+    location: "Low"
+  };
+
+  timeToXY(tangibleInteraction);
+
+  url = 'https://crossorigin.me/https://google.com';
+
+  body = {
+    name: 'new user',
+    movies: ['blah']
+  };
+
+  callback = function(data) {
+    print('-----------------------');
+    console.log(data);
+    print(data);
+    return print('-----------------------');
+  };
+
+  GETRequest = function(url, callback) {
+    var myHTTPRequest_GET;
+    return myHTTPRequest_GET = window.__framerNew("myHTTPRequest_GET", "39:25-43:0", "?",new HTTPRequest({
+      url: url,
+      type: 'GET',
+      callback: callback
+    }));
+  };
+
+  GETRequest(url, callback);
+
+}).call(this);
+})</script>
+
+</head>
+
+<body>
+</body>
+
+</html>
