@@ -323,20 +323,45 @@ ala =
 		shareTime: false
 		shareLocation: false
 
+activities = []
 # Create items
-standupMeeting = instantiateItemFor(dalan.standupMeeting)
-clientMeeting = instantiateItemFor(dalan.clientMeeting)
-lunchInfo = instantiateItemFor(dalan.lunchInfo)
-presentationEvent = instantiateItemFor(dalan.presentationEvent)
-brainstormingWorkshop = instantiateItemFor(dalan.brainstormingWorkshop)
-
-activities = [standupMeeting, clientMeeting, lunchInfo, presentationEvent, brainstormingWorkshop]
+createActivitiesFor = (name) ->
+	activities = []
+	if (name == 'ajla')
+		for event of ala
+			alaEvent = ala[event.toString()]
+			if (alaEvent.time)
+				activity = instantiateItemFor(alaEvent)
+				activities.push(activity)
+	else if (name == 'daniel')
+		for event of dalan
+			dalanEvent = dalan[event.toString()]
+			if (dalanEvent.name)
+				activity = instantiateItemFor(dalanEvent)
+				activities.push(activity)
+	else if (name == 'matilda')
+		for event of matalda
+			mataldaEvent = matalda[event.toString()]
+			if (mataldaEvent.name)
+				activity = instantiateItemFor(mataldaEvent)
+				activities.push(activity)
+	else if (name == 'mattias')
+		for event of maitas
+			maitasEvent = maitas[event.toString()]
+			if (maitasEvent.name)
+				activity = instantiateItemFor(maitasEvent)
+				activities.push(activity)
+	else if (name == 'paul')
+		for event of pol
+			polEvent = pol[event.toString()]
+			if (polEvent.name)
+				activity = instantiateItemFor(polEvent)
+				activities.push(activity)
 
 Puck.pinchable.enabled = true;
 Puck.pinchable.scale = false;
 Puck.pinchable.centerOrigin = false;
 Puck.pinchable.rotateIncrements = .5;
-
 
 allSelected = false
 # Select by rotate
@@ -430,17 +455,47 @@ redrawItem = (activity) ->
 		activity.childrenWithName('LocationText').color = inactiveBorderColor
 
 # Create XMLHttpRequest
-callback = (data) ->
-	print data
+activePuck = null
+parseActivePucks = (data) ->
+	activities = []
+	print 'Parsing'
+	puckArray = data.split ''
+	totalActive = 0
+	for puck, i in puckArray
+		totalActive += puck
+		if (puck == '1' && i == 0 && !activePuck)
+			createActivitiesFor('ajla')
+			activePuck = 'ajla'
+		else if (puck == '1' && i == 1 && !activePuck)
+			createActivitiesFor('daniel')
+			activePuck = 'daniel'
+		else if (puck == '1' && i == 2 && !activePuck)
+			createActivitiesFor('matilda')
+			activePuck = 'matilda'
+		else if (puck == '1' && i == 3 && !activePuck)
+			createActivitiesFor('mattias')
+			activePuck = 'mattias'
+		else if (puck == '1' && i == 4 && !activePuck)
+			createActivitiesFor('paul')
+			activePuck = 'paul'
+	if (totalActive != 1)
+		activities = []
+		activePuck = null
 
-r = new XMLHttpRequest
-r.open 'GET', 'http://42.42.42.42', true
-r.setRequestHeader('Content-type', 'text/plain')
-r.onreadystatechange = ->
-	if (r.readyState == XMLHttpRequest.DONE)
-		if (r.status >= 200 && r.status <= 206)
-			data = r.response
-			callback(data)
-		else
-			print r.status
-#r.send()
+sendRequest = () ->
+	r = new XMLHttpRequest
+	r.open 'GET', 'http://42.42.42.42', true
+	r.setRequestHeader('Content-type', 'text/plain')
+	r.onreadystatechange = ->
+		if (r.readyState == XMLHttpRequest.DONE)
+			if (r.status >= 200 && r.status <= 206)
+				data = r.response
+				parseActivePucks(data)
+			else
+				print r.status
+	r.send()
+	print 'Sending'
+	
+	Utils.delay 5, -> sendRequest()
+
+sendRequest()
