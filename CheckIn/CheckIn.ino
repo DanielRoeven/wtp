@@ -47,6 +47,12 @@ void setup(){
   rfid.PCD_Init();    // Init MFRC522 
 
   Serial.println("Now able to scan the MIFARE Classsic NUID.");
+
+  pinMode(A0, OUTPUT);
+  pinMode(A1, OUTPUT);
+  pinMode(A2, OUTPUT);
+  pinMode(A3, OUTPUT);
+  pinMode(A4, OUTPUT);
   
   leds.begin();  // Call this to start up the LED strip.
 
@@ -111,14 +117,58 @@ void loop(){
       if (IDState[i] == 0){       //Currently logged out, so trying to log in
         IDState[i] = 1;
         Serial.println("Now checked in!");
-        showCheckIn(130); 
+        switch (i) {
+          case 0:
+            digitalWrite(A0, HIGH);
+            break;
+          case 1:
+            digitalWrite(A1, HIGH);
+            break;
+          case 2:
+            digitalWrite(A2, HIGH);
+            break;
+          case 3:
+            digitalWrite(A3, HIGH);
+            break;
+          case 4:
+            digitalWrite(A4, HIGH);
+            break;
+          case 5:
+            digitalWrite(A5, HIGH);
+            break;
+          default:
+            Serial.println("Trying to activate unknown index");
+        }
+        showCheckIn(130);
       }
       else if (IDState[i] == 1){  //Currently logged in, so trying to log out
         IDState[i] = 0;
-        Serial.println("Funk Soul Brother");
-        showCheckOut(20);        
+        Serial.println("Now checked out!");
+        switch (i) {
+          case 0:
+            digitalWrite(A0, LOW);
+            break;
+          case 1:
+            digitalWrite(A1, LOW);
+            break;
+          case 2:
+            digitalWrite(A2, LOW);
+            break;
+          case 3:
+            digitalWrite(A3, LOW);
+            break;
+          case 4:
+            digitalWrite(A4, LOW);
+            break;
+          case 5:
+            digitalWrite(A5, LOW);
+            break;
+          default:
+            Serial.println("Trying to activate unknown index");
+        }  
+        showCheckOut(20);
       }
-      else{                       // This should never happen, so show in console if it does
+      else{    // This should never happen, so show in console if it does
         Serial.println("Wrong IDState");
         Serial.println("Current ID: ");
         Serial.print  (scannedTagID);
