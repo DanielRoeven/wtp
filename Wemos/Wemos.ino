@@ -7,6 +7,8 @@ IPAddress    apIP(42, 42, 42, 42);  // Defining a static IP address: local & gat
 // WiFi access point settings
 const char *ssid = "Dalan";
 const char *password = "ordbajsa";
+int  IDState[6] = {0, 0, 0, 0, 0, 0,};
+char webString[6] = "00000";
 
 // Define a web server at port 80 for HTTP
 ESP8266WebServer server(80);
@@ -14,7 +16,7 @@ ESP8266WebServer server(80);
 void setup() {
   
   delay(1000);
-  Serial.begin(115200);
+  Serial.begin(9600);
   Serial.println();
   Serial.println("Configuring access point...");
 
@@ -41,20 +43,27 @@ void setup() {
 
   // Responding to regular GET requests with a CORS header
   server.on("/", HTTP_GET, []() {
-    String response = "Time flies like an arrow, fruit flies like a kiwi.";
-
     // Set CORS headers to allow access from any domain
     server.sendHeader("Access-Control-Allow-Origin", "*");
     server.sendHeader("Access-Control-Allow-Methods", "POST,GET,OPTIONS");
     server.sendHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
     // Send response (with response as a C-style string)
-    server.send(200, "text/plain", response.c_str() );
+    server.send(200, "text/plain", webString );
   });
 
   server.begin();
 }
 
 void loop() {
+  IDState[0] = digitalRead(D1);
+  IDState[1] = digitalRead(D2);
+  IDState[2] = digitalRead(D5);
+  IDState[3] = digitalRead(D6);
+  IDState[4] = digitalRead(D7);
+
+  sprintf(webString, "%d%d%d%d%d", IDState[0], IDState[1], IDState[2], IDState[3], IDState[4]);
+  Serial.println(webString);
+  
   server.handleClient();
 }
