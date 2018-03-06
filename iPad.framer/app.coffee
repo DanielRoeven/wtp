@@ -323,10 +323,10 @@ ala =
 		shareTime: false
 		shareLocation: false
 
-activities = []
+activities = null
 # Create items
 createActivitiesFor = (name) ->
-	activities = []
+	activities = null
 	if (name == 'ajla')
 		for event of ala
 			alaEvent = ala[event.toString()]
@@ -457,30 +457,43 @@ redrawItem = (activity) ->
 # Create XMLHttpRequest
 activePuck = null
 parseActivePucks = (data) ->
-	activities = []
 	print 'Parsing'
-	puckArray = data.split ''
-	totalActive = 0
-	for puck, i in puckArray
-		totalActive += puck
-		if (puck == '1' && i == 0 && !activePuck)
-			createActivitiesFor('ajla')
-			activePuck = 'ajla'
-		else if (puck == '1' && i == 1 && !activePuck)
-			createActivitiesFor('daniel')
-			activePuck = 'daniel'
-		else if (puck == '1' && i == 2 && !activePuck)
-			createActivitiesFor('matilda')
-			activePuck = 'matilda'
-		else if (puck == '1' && i == 3 && !activePuck)
-			createActivitiesFor('mattias')
-			activePuck = 'mattias'
-		else if (puck == '1' && i == 4 && !activePuck)
-			createActivitiesFor('paul')
-			activePuck = 'paul'
-	if (totalActive != 1)
-		activities = []
-		activePuck = null
+	print data
+	switch data
+		when '00000'
+			activities = []
+		when '10000'
+			if (!activePuck)
+				createActivitiesFor('ajla')
+				activePuck = 'ajla'
+			break
+		when '01000'
+			if (!activePuck)
+				createActivitiesFor('daniel')
+				activePuck = 'daniel'
+			break
+		when '00100'
+			if (!activePuck)
+				createActivitiesFor('matilda')
+				activePuck = 'matilda'
+			break
+		when '00010'
+			if (!activePuck)
+				createActivitiesFor('mattias')
+				activePuck = 'mattias'
+			break
+		when '00001'
+			if (!activePuck)
+				createActivitiesFor('paul')
+				activePuck = 'paul'
+			break
+		else
+			for activity in activities
+				activity = null
+			activities = null
+			activePuck = null
+	
+	Utils.delay 5, -> sendRequest()
 
 sendRequest = () ->
 	r = new XMLHttpRequest
@@ -496,6 +509,4 @@ sendRequest = () ->
 	r.send()
 	print 'Sending'
 	
-	Utils.delay 5, -> sendRequest()
-
 sendRequest()
