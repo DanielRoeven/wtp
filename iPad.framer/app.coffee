@@ -14,9 +14,15 @@ Item_Template.opacity = 0
 Segment_Template.opacity = 0
 isAuthorised = false
 
+Frame.states.hidden =
+	opacity: 0
+Frame.animationOptions =
+	time: 1
+
 instantiateSegment = (startHour) ->
 	segment = Segment_Template.copy()
 	segment.opacity = 1
+	segment.parent = Frame
 	index = (startHour) %% 12
 	segment.rotation += index * 30
 	
@@ -334,17 +340,14 @@ ala =
 activities = []
 # Create Activities
 
-itemDataToItemAndSegment = (itemData) ->
-		activity = instantiateItemFor(itemData, true)
+itemDataToItemAndSegment = (itemData, checkIn) ->
+		activity = instantiateItemFor(itemData, checkIn)
 		activities.push(activity)
 		sharing = 'shareNothing'
-		print itemData.shareTime
-		print itemData.shareLocation
 		if itemData.shareTime
 			sharing = 'shareTime'
 		if (itemData.shareLocation)
 			sharing = 'shareLocation'
-		print 'sharing: ' + sharing
 		redrawSegments(itemData.hour, itemData.durationH, sharing)
 
 createActivitiesFor = (name) ->
@@ -352,23 +355,23 @@ createActivitiesFor = (name) ->
 	if (name == 'ajla')
 		for event of ala
 			alaEvent = ala[event.toString()]
-			itemDataToItemAndSegment(alaEvent)
+			itemDataToItemAndSegment(alaEvent, true)
 	else if (name == 'daniel')
 		for event of dalan
 			dalanEvent = dalan[event.toString()]
-			itemDataToItemAndSegment(dalanEvent)
+			itemDataToItemAndSegment(dalanEvent, false)
 	else if (name == 'matilda')
 		for event of matalda
 			mataldaEvent = matalda[event.toString()]
-			itemDataToItemAndSegment(mataldaEvent)
+			itemDataToItemAndSegment(mataldaEvent, false)
 	else if (name == 'mattias')
 		for event of maitas
 			maitasEvent = maitas[event.toString()]
-			itemDataToItemAndSegment(maitasEvent)
+			itemDataToItemAndSegment(maitasEvent, false)
 	else if (name == 'paul')
 		for event of pol
 			polEvent = pol[event.toString()]
-			itemDataToItemAndSegment(polEvent)
+			itemDataToItemAndSegment(polEvent, false)
 
 Puck.pinchable.enabled = true
 Puck.pinchable.scale = false
@@ -480,48 +483,51 @@ activePuck = null
 parseActivePucks = (data) ->
 	switch data
 		when '00000'
-			print 'Parsed 00000, clear'
 			for activity in activities
 				activity.destroy()
 			activePuck = null
 			clearSegments()
+			Frame.animate('hidden')
+			break
 		when '10000'
-			print 'Parsed 10000'
 			if (!activePuck)
-				print 'Parsed Ajla'
 				isAuthorised = true
 				createActivitiesFor('ajla')
 				activePuck = 'ajla'
+				Frame.animate('default')
 			break
 		when '01000'
-			print 'Parsed 01000'
 			if (!activePuck)
-				print 'Parsed Daniel'
 				isAuthorised = false
 				createActivitiesFor('daniel')
 				activePuck = 'daniel'
+				Frame.animate('default')
 			break
 		when '00100'
 			if (!activePuck)
 				isAuthorised = false
 				createActivitiesFor('matilda')
 				activePuck = 'matilda'
+				Frame.animate('default')
 			break
 		when '00010'
 			if (!activePuck)
 				isAuthorised = false
 				createActivitiesFor('mattias')
 				activePuck = 'mattias'
+				Frame.animate('default')
 			break
 		when '00001'
 			if (!activePuck)
 				isAuthorised = false
 				createActivitiesFor('paul')
 				activePuck = 'paul'
+				Frame.animate('default')
 			break
 		else
 			activities = []
 			activePuck = null
+			Frame.animate('hidden')	
 	
 	Utils.delay 2, -> sendRequest()
 
@@ -537,7 +543,6 @@ sendRequest = () ->
 			else
 				print r.status
 	r.send()
-	print 'Sending'
 	
 sendRequest()
 
