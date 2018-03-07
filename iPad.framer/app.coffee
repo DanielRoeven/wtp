@@ -488,6 +488,7 @@ parseActivePucks = (data) ->
 			activePuck = null
 			clearSegments()
 			Frame.animate('hidden')
+			Status.text = "Scan a Puck"
 			break
 		when '10000'
 			if (!activePuck)
@@ -495,6 +496,7 @@ parseActivePucks = (data) ->
 				createActivitiesFor('ajla')
 				activePuck = 'ajla'
 				Frame.animate('default')
+				Status.text = "Checking in Ajla"
 			break
 		when '01000'
 			if (!activePuck)
@@ -502,6 +504,7 @@ parseActivePucks = (data) ->
 				createActivitiesFor('daniel')
 				activePuck = 'daniel'
 				Frame.animate('default')
+				Status.text = "Viewing Daniel's Schedule"
 			break
 		when '00100'
 			if (!activePuck)
@@ -509,6 +512,7 @@ parseActivePucks = (data) ->
 				createActivitiesFor('matilda')
 				activePuck = 'matilda'
 				Frame.animate('default')
+				Status.text = "Viewing Matilda's Schedule"
 			break
 		when '00010'
 			if (!activePuck)
@@ -516,6 +520,7 @@ parseActivePucks = (data) ->
 				createActivitiesFor('mattias')
 				activePuck = 'mattias'
 				Frame.animate('default')
+				Status.text = "Viewing Mattias' Schedule"
 			break
 		when '00001'
 			if (!activePuck)
@@ -523,6 +528,7 @@ parseActivePucks = (data) ->
 				createActivitiesFor('paul')
 				activePuck = 'paul'
 				Frame.animate('default')
+				Status.text = "Viewing Paul's Schedule"
 			break
 		else
 			activities = []

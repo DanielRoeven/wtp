@@ -1846,6 +1846,125 @@
             "visible" : true,
             "width" : 1024,
             "widthFactor" : null
+          },
+          {
+            "__class" : "TextNode",
+            "autoSize" : false,
+            "blendingEnabled" : 0,
+            "blendingMode" : "normal",
+            "blur" : 12,
+            "blurEnabled" : 0,
+            "blurType" : "layer",
+            "bottom" : 18,
+            "brightness" : 100,
+            "brightnessEnabled" : 0,
+            "centerAnchorX" : 0.5,
+            "centerAnchorY" : 0.95442708333333337,
+            "constraintsLocked" : false,
+            "contrast" : 100,
+            "contrastEnabled" : 0,
+            "editable" : false,
+            "exportOptions" : [
+
+            ],
+            "grayscale" : 0,
+            "grayScaleEnabled" : 0,
+            "height" : 34,
+            "heightFactor" : null,
+            "hueRotate" : 0,
+            "hueRotateEnabled" : 0,
+            "id" : "KZ7rAlBoJ",
+            "invert" : 0,
+            "invertEnabled" : 0,
+            "left" : 0,
+            "locked" : false,
+            "name" : "Status",
+            "opacity" : 1,
+            "parentid" : "gQKKMvZJW",
+            "right" : 0,
+            "rotation" : 0,
+            "saturate" : 100,
+            "saturateEnabled" : 0,
+            "sepia" : 0,
+            "sepiaEnabled" : 0,
+            "shadows" : [
+
+            ],
+            "styledText" : {
+              "__class" : "StyledTextDraft",
+              "blocks" : [
+                {
+                  "data" : {
+                    "emptyStyle" : [
+                      "FONT:AvenirNext-Medium",
+                      "COLOR:#333",
+                      "LETTERSPACING:0",
+                      "LINEHEIGHT:1.2",
+                      "ALIGN:center",
+                      "SIZE:24"
+                    ]
+                  },
+                  "depth" : 0,
+                  "entityRanges" : [
+
+                  ],
+                  "inlineStyleRanges" : [
+                    {
+                      "length" : 6,
+                      "offset" : 0,
+                      "style" : "FONT:AvenirNext-Medium"
+                    },
+                    {
+                      "length" : 6,
+                      "offset" : 0,
+                      "style" : "COLOR:#333"
+                    },
+                    {
+                      "length" : 6,
+                      "offset" : 0,
+                      "style" : "LETTERSPACING:0"
+                    },
+                    {
+                      "length" : 6,
+                      "offset" : 0,
+                      "style" : "LINEHEIGHT:1.2"
+                    },
+                    {
+                      "length" : 6,
+                      "offset" : 0,
+                      "style" : "ALIGN:center"
+                    },
+                    {
+                      "length" : 6,
+                      "offset" : 0,
+                      "style" : "SIZE:24"
+                    }
+                  ],
+                  "key" : "ltff",
+                  "text" : "Status",
+                  "type" : "unstyled"
+                }
+              ],
+              "cached" : {
+                "html" : "<span data-offset-key=\"ltff-0-0\" style=\"tab-size:4;font-weight:500;font-family:&quot;AvenirNext-Medium&quot;, &quot;Avenir Next&quot;, serif;-webkit-text-fill-color:#333;font-size:24px;letter-spacing:0px;line-height:1.2\"><span data-text=\"true\">Status<\/span><\/span>",
+                "os" : "10_13",
+                "size" : {
+                  "height" : 28,
+                  "width" : 1033
+                },
+                "width" : 1032
+              },
+              "entityMap" : {
+
+              }
+            },
+            "targetName" : "Status",
+            "top" : null,
+            "visible" : true,
+            "width" : 1024,
+            "widthFactor" : null,
+            "x" : 487,
+            "y" : 716
           }
         ],
         "clip" : true,
