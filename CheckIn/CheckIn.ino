@@ -120,26 +120,31 @@ void loop(){
         switch (i) {
           case 0:
             digitalWrite(A0, HIGH);
+            showCheckIn(130);
             break;
           case 1:
             digitalWrite(A1, HIGH);
+            showKolla(130);
             break;
           case 2:
             digitalWrite(A2, HIGH);
+            showKolla(130);
             break;
           case 3:
             digitalWrite(A3, HIGH);
+            showKolla(130);
             break;
           case 4:
             digitalWrite(A4, HIGH);
+            showKolla(130);
             break;
           case 5:
             digitalWrite(A5, HIGH);
+            showKolla(130);
             break;
           default:
             Serial.println("Trying to activate unknown index");
         }
-        showCheckIn(130);
       }
       else if (IDState[i] == 1){  //Currently logged in, so trying to log out
         IDState[i] = 0;
@@ -208,6 +213,19 @@ void showCheckIn(byte wait){
       delay(wait);
     }
     leds.setPixelColor(0, DARKDARKGREEN);
+    leds.show();
+}
+
+void showKolla(byte wait){
+    clearLEDs();leds.show();  
+    for (int i=LED_COUNT-1; i>=0; i--){
+      leds.setPixelColor(i+1, BLUE);
+      leds.setPixelColor(i, BLUE);
+      leds.setPixelColor(i-1, BLUE);
+      leds.show();
+      delay(wait);
+    }
+    leds.setPixelColor(0, BLUE);
     leds.show();
 }
 

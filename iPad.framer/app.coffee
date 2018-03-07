@@ -2,14 +2,17 @@
 screen = Framer.Device.screen
 Framer.Extras.Hints.disable()
 
-inactiveColor = '#CFCFCF'
+inactiveColor = '#D1D1D1'
 inactiveBorderColor = '#4F4F4F'
-activeColor = '#37A3D2'
-activeBorderColor = '#317490'
-activeTextColor = '#171717'
+activeTimeColor = '#B8D8E5'
+activePlaceColor = '#379FCC'
+activeTimeBorderColor = '#3497C1'
+activePlaceBorderColor = '#0374A3'
+activeTextColor = '171717'
 allActivityStatus = 'shareNothing'
 Item_Template.opacity = 0
 Segment_Template.opacity = 0
+isAuthorised = false
 
 instantiateSegment = (startHour) ->
 	segment = Segment_Template.copy()
@@ -17,16 +20,18 @@ instantiateSegment = (startHour) ->
 	index = (startHour) %% 12
 	segment.rotation += index * 30
 	
+	segment.children[0].animationOptions =
+		time: .15
+	
 	segment.children[0].states.shareNothing =
 		fill: inactiveColor
 	segment.children[0].states.shareTime =
-		fill: activeColor
+		fill: activeTimeColor
 	segment.children[0].states.shareLocation =
-		fill: activeBorderColor
+		fill: activePlaceColor
 	segment.children[0].stateSwitch('shareNothing')
 	
 	return segment
-
 # Create Segments Object
 segments =
 	8: instantiateSegment(8)
@@ -38,23 +43,25 @@ segments =
 	14: instantiateSegment(14)
 	15: instantiateSegment(15)
 	16: instantiateSegment(16)
+clearSegments = ->
+	redrawSegments(8, 9, 'shareNothing')
 
-instantiateItemFor = (itemData) ->
+instantiateItemFor = (itemData, checkIn) ->
 	item = Item_Template.copy()
 	item.opacity = 1
 	item.hour = itemData.hour
 	item.durationH = itemData.durationH
 	
 	item.childrenWithName('NameText')[0].text = itemData.name
-	
+		
 	timeString = itemData.hour + ':' + itemData.minutes
 	if itemData.minutes == 0 then timeString += '0'
 	
 	item.childrenWithName('TimeText')[0].text = timeString
 	item.children[1].states.animationOptions =
-		time: 10.15
+		time: .15
 	item.children[1].states.sharing =
-		fill: activeColor
+		fill: activeTimeColor
 	if itemData.shareTime
 		item.children[1].animate('sharing')
 	
@@ -62,7 +69,7 @@ instantiateItemFor = (itemData) ->
 	item.children[0].states.animationOptions =
 		time: .15
 	item.children[0].states.sharing =
-		fill: activeColor
+		fill: activePlaceColor
 	if itemData.shareLocation
 		item.children[0].animate('sharing')
 	
@@ -84,6 +91,11 @@ instantiateItemFor = (itemData) ->
 	item.states.animationOptions =
 		time: .15
 	
+	if (!checkIn && !itemData.shareLocation)
+		item.childrenWithName('LocationText')[0].text = ""
+	if (!checkIn && !itemData.shareTime)
+		item.opacity = 0	
+	
 	return item
 
 timeToXY = (item) ->
@@ -104,13 +116,13 @@ timeToDegree = (hours, minutes) ->
 # Person Dalan 
 dalan =
 	standupMeeting: 
-		name: "Stand up meeting"
+		name: "Standup Meeting"
 		hour: 8
 		minutes: 0
 		durationH: 1
 		durationM: 0
 		location: "Room 101"
-		shareTime: false
+		shareTime: true
 		shareLocation: false
 	clientMeeting:
 		name: "Meeting with Client"
@@ -128,8 +140,8 @@ dalan =
 		durationH: 1
 		durationM: 0
 		location: "Out of Office"
-		shareTime: false
-		shareLocation: false
+		shareTime: true
+		shareLocation: true
 	presentationEvent:
 		name: "Presentation Event"
 		hour: 14
@@ -140,15 +152,14 @@ dalan =
 		shareTime: false
 		shareLocation: false
 	brainstormingWorkshop:
-		name: "Brainstorming Workshop"
+		name: "Brainstorming"
 		hour: 16
 		minutes: 0
 		durationH: 1
 		durationM: 0
 		location: "Room 101"
-		shareTime: false
+		shareTime: true
 		shareLocation: false
-
 # Person Pol
 pol = 
 	halftimeMeeting:
@@ -185,8 +196,8 @@ pol =
 		durationH: 1
 		durationM: 0
 		location: "Big hall"
-		shareTime: false
-		shareLocation: false
+		shareTime: true
+		shareLocation: true
 	researchtime:
 		name: "Research time"
 		hour: 15
@@ -194,11 +205,10 @@ pol =
 		durationH: 1
 		durationM: 0
 		location: "Office 40"
-		shareTime: false
+		shareTime: true
 		shareLocation: false
-
 # Person Maitas
-maitas: 
+maitas =
 	developing:
 		name: "App Development"
 		hour: 8
@@ -206,7 +216,7 @@ maitas:
 		durationH: 2
 		durationM: 0
 		location: "Room 17"
-		shareTime: false
+		shareTime: true
 		shareLocation: false
 
 	clientMeeting:
@@ -216,7 +226,7 @@ maitas:
 		durationH: 2
 		durationM: 0
 		location: "Room 101"
-		shareTime: false
+		shareTime: true
 		shareLocation: false
 
 	lunchtime:
@@ -226,9 +236,8 @@ maitas:
 		durationH: 1
 		durationM: 0
 		location: "Kitchen Area"
-		shareTime: false
+		shareTime: true
 		shareLocation: false
-
 # Person Matalda
 matalda = 
 	scrummeeting:
@@ -238,7 +247,7 @@ matalda =
 		durationH: 1
 		durationM: 0
 		location: "Room 55"
-		shareTime: false
+		shareTime: true
 		shareLocation: false
 
 	usertesting:
@@ -248,7 +257,7 @@ matalda =
 		durationH: 2
 		durationM: 0
 		location: "At Client's Office"
-		shareTime: false
+		shareTime: true
 		shareLocation: false
 
 	lunchtime:
@@ -258,8 +267,8 @@ matalda =
 		durationH: 1
 		durationM: 0
 		location: "Kitchen Area"
-		shareTime: false
-		shareLocation: false
+		shareTime: true
+		shareLocation: true
 
 	clientMeeting:
 		name: "Meeting with Client"
@@ -268,7 +277,7 @@ matalda =
 		durationH: 2
 		durationM: 0
 		location: "Room 201"
-		shareTime: false
+		shareTime: true
 		shareLocation: false
 
 	interview:
@@ -280,11 +289,10 @@ matalda =
 		location: "Office 12"
 		shareTime: true
 		shareLocation: false	
-
 # Person Ala
 ala = 
 	standupMeeting:
-		name: "Standup Meetin"
+		name: "Standup Meeting"
 		hour: 8
 		minutes: 0
 		durationH: 1
@@ -300,7 +308,7 @@ ala =
 		durationH: 2
 		durationM: 0
 		location: "Big Hall"
-		shareTime: true
+		shareTime: false
 		shareLocation: false	
 
 	lunchtime:
@@ -314,7 +322,7 @@ ala =
 		shareLocation: false
 	
 	brainstormingWorkshop:
-		name: "Brainstorming Workshop"
+		name: "Brainstorming"
 		hour: 14
 		minutes: 0
 		durationH: 3
@@ -323,45 +331,49 @@ ala =
 		shareTime: false
 		shareLocation: false
 
-activities = null
-# Create items
+activities = []
+# Create Activities
+
+itemDataToItemAndSegment = (itemData) ->
+		activity = instantiateItemFor(itemData, true)
+		activities.push(activity)
+		sharing = 'shareNothing'
+		print itemData.shareTime
+		print itemData.shareLocation
+		if itemData.shareTime
+			sharing = 'shareTime'
+		if (itemData.shareLocation)
+			sharing = 'shareLocation'
+		print 'sharing: ' + sharing
+		redrawSegments(itemData.hour, itemData.durationH, sharing)
+
 createActivitiesFor = (name) ->
-	activities = null
+	activities = []
 	if (name == 'ajla')
 		for event of ala
 			alaEvent = ala[event.toString()]
-			if (alaEvent.time)
-				activity = instantiateItemFor(alaEvent)
-				activities.push(activity)
+			itemDataToItemAndSegment(alaEvent)
 	else if (name == 'daniel')
 		for event of dalan
 			dalanEvent = dalan[event.toString()]
-			if (dalanEvent.name)
-				activity = instantiateItemFor(dalanEvent)
-				activities.push(activity)
+			itemDataToItemAndSegment(dalanEvent)
 	else if (name == 'matilda')
 		for event of matalda
 			mataldaEvent = matalda[event.toString()]
-			if (mataldaEvent.name)
-				activity = instantiateItemFor(mataldaEvent)
-				activities.push(activity)
+			itemDataToItemAndSegment(mataldaEvent)
 	else if (name == 'mattias')
 		for event of maitas
 			maitasEvent = maitas[event.toString()]
-			if (maitasEvent.name)
-				activity = instantiateItemFor(maitasEvent)
-				activities.push(activity)
+			itemDataToItemAndSegment(maitasEvent)
 	else if (name == 'paul')
 		for event of pol
 			polEvent = pol[event.toString()]
-			if (polEvent.name)
-				activity = instantiateItemFor(polEvent)
-				activities.push(activity)
+			itemDataToItemAndSegment(polEvent)
 
-Puck.pinchable.enabled = true;
-Puck.pinchable.scale = false;
-Puck.pinchable.centerOrigin = false;
-Puck.pinchable.rotateIncrements = .5;
+Puck.pinchable.enabled = true
+Puck.pinchable.scale = false
+Puck.pinchable.centerOrigin = false
+Puck.pinchable.rotateIncrements = .5
 
 allSelected = false
 # Select by rotate
@@ -374,7 +386,7 @@ rotateToSelect = Utils.throttle .1, ->
 		deselected = false
 		allSelected = false
 		puckRotation = Puck.rotation %% 360
-		if (puckRotation <= 225 && puckRotation >= 165)
+		if (puckRotation <= 225 && puckRotation >= 165 && isAuthorised)
 			selectedActivity = activities
 			allSelected = true
 			for activity in activities
@@ -392,12 +404,20 @@ rotateToSelect = Utils.throttle .1, ->
 					selected = true
 			if (deselected && !selected)
 				selectedActivity = null
-
 # Change on press (third touch)
 Frame.onTouchStart (e) ->
-	if (e.touches.length > 2 && selectedActivity)
+	if (e.touches.length > 2 && selectedActivity && isAuthorised)
 		if allSelected
-			for activity in activities
+			for activity in selectedActivity
+				if (allActivityStatus == 'shareTime')
+					activity.shareTime = true
+					activity.shareLocation = false
+				else if (allActivityStatus == 'shareLocation')
+					activity.shareTime = true
+					activity.shareLocation = true
+				else if (allActivityStatus == 'shareNothing')
+					activity.shareTime = false
+					activity.shareLocation = false
 				updateActivityStatus(activity)
 			switch allActivityStatus
 				when 'shareNothing'
@@ -409,35 +429,34 @@ Frame.onTouchStart (e) ->
 				else
 					allActivityStatus = 'shareNothing'
 		else
+			allActivityStatus = 'shareNothing'
 			updateActivityStatus(selectedActivity)
 
 updateActivityStatus = (activity) ->
 	if (allSelected)
 		redrawSegments(activity.hour, activity.durationH, allActivityStatus)
 		redrawItem(activity)
-	else 
-		if (!activity.shareTime)
-			activity.shareTime = true
-			redrawSegments(activity.hour, activity.durationH, 'shareTime')
-		else if (!activity.shareLocation)
-			activity.shareLocation = true
-			redrawSegments(activity.hour, activity.durationH, 'shareLocation')
-		else
-			activity.shareTime = false
-			activity.shareLocation = false
-			redrawSegments(activity.hour, activity.durationH, 'shareNothing')
-		redrawItem(activity)
+	else if (!activity.shareTime)
+		activity.shareTime = true
+		redrawSegments(activity.hour, activity.durationH, 'shareTime')
+	else if (!activity.shareLocation)
+		activity.shareLocation = true
+		redrawSegments(activity.hour, activity.durationH, 'shareLocation')
+	else
+		activity.shareTime = false
+		activity.shareLocation = false
+		redrawSegments(activity.hour, activity.durationH, 'shareNothing')
+	redrawItem(activity)
 
 redrawSegments = (time, duration, sharing) ->
 	for i in [0 ... duration]
 		newTime = time + i
 		segment = segments[String(newTime)]
 		segment.children[0].animate(sharing)
-
 redrawItem = (activity) ->
 	if activity.shareTime
-		activity.children[1].fill = activeColor
-		activity.children[1].borderColor = activeBorderColor
+		activity.children[1].fill = activeTimeColor
+		activity.children[1].borderColor = activeTimeBorderColor
 		activity.childrenWithName('NameText').color = activeTextColor
 		activity.childrenWithName('TimeText').color = activeTextColor
 	else
@@ -446,8 +465,10 @@ redrawItem = (activity) ->
 		activity.childrenWithName('NameText').color = inactiveBorderColor
 		activity.childrenWithName('TimeText').color = inactiveBorderColor
 	if activity.shareLocation
-		activity.children[0].fill = activeColor
-		activity.children[0].borderColor = activeBorderColor
+		activity.children[0].fill = activePlaceColor
+		activity.children[0].borderColor = activePlaceBorderColor
+		activity.children[1].fill = activePlaceColor
+		activity.children[1].fill.borderColor = activePlaceBorderColor
 		activity.childrenWithName('LocationText').color = activeTextColor
 	else
 		activity.children[0].fill = inactiveColor
@@ -457,47 +478,56 @@ redrawItem = (activity) ->
 # Create XMLHttpRequest
 activePuck = null
 parseActivePucks = (data) ->
-	print 'Parsing'
-	print data
 	switch data
 		when '00000'
-			activities = []
+			print 'Parsed 00000, clear'
+			for activity in activities
+				activity.destroy()
+			activePuck = null
+			clearSegments()
 		when '10000'
+			print 'Parsed 10000'
 			if (!activePuck)
+				print 'Parsed Ajla'
+				isAuthorised = true
 				createActivitiesFor('ajla')
 				activePuck = 'ajla'
 			break
 		when '01000'
+			print 'Parsed 01000'
 			if (!activePuck)
+				print 'Parsed Daniel'
+				isAuthorised = false
 				createActivitiesFor('daniel')
 				activePuck = 'daniel'
 			break
 		when '00100'
 			if (!activePuck)
+				isAuthorised = false
 				createActivitiesFor('matilda')
 				activePuck = 'matilda'
 			break
 		when '00010'
 			if (!activePuck)
+				isAuthorised = false
 				createActivitiesFor('mattias')
 				activePuck = 'mattias'
 			break
 		when '00001'
 			if (!activePuck)
+				isAuthorised = false
 				createActivitiesFor('paul')
 				activePuck = 'paul'
 			break
 		else
-			for activity in activities
-				activity = null
-			activities = null
+			activities = []
 			activePuck = null
 	
-	Utils.delay 5, -> sendRequest()
+	Utils.delay 2, -> sendRequest()
 
 sendRequest = () ->
 	r = new XMLHttpRequest
-	r.open 'GET', 'http://42.42.42.42', true
+	r.open 'GET', 'http://42.42.42.42' + '/#' + Math.random(0,100000), true
 	r.setRequestHeader('Content-type', 'text/plain')
 	r.onreadystatechange = ->
 		if (r.readyState == XMLHttpRequest.DONE)
@@ -510,3 +540,10 @@ sendRequest = () ->
 	print 'Sending'
 	
 sendRequest()
+
+Button_00000.onTap -> parseActivePucks('00000')
+Button_10000.onTap -> parseActivePucks('10000')
+Button_01000.onTap -> parseActivePucks('01000')
+Button_00100.onTap -> parseActivePucks('00100')
+Button_00010.onTap -> parseActivePucks('00010')
+Button_00001.onTap -> parseActivePucks('00001')
